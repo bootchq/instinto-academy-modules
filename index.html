@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Академия Instinto — Структура модулей</title>
+    <title>Академия Instinto — Обучение</title>
     <style>
         * {
             margin: 0;
@@ -16,11 +16,11 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #e8e8e8;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -71,6 +71,32 @@
             color: #8892b0;
         }
 
+        /* Navigation tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #8892b0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+            color: #e94560;
+        }
+
+        /* Module cards */
         .module {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
@@ -131,7 +157,7 @@
         }
 
         .module.open .module-content {
-            max-height: 1000px;
+            max-height: 2000px;
         }
 
         .topics {
@@ -200,15 +226,6 @@
             background: rgba(255,255,255,0.1);
         }
 
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #8892b0;
-            font-size: 0.9rem;
-        }
-
         .badge {
             display: inline-block;
             background: rgba(233, 69, 96, 0.2);
@@ -220,6 +237,266 @@
             font-weight: 500;
         }
 
+        .badge-ready {
+            background: rgba(46, 213, 115, 0.2);
+            color: #2ed573;
+        }
+
+        /* Lesson button */
+        .open-lesson-btn {
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 15px 25px 20px 85px;
+            transition: all 0.3s ease;
+        }
+
+        .open-lesson-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        /* Lesson content modal */
+        .lesson-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .lesson-modal.active {
+            display: block;
+        }
+
+        .lesson-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #1a1a2e;
+            min-height: 100%;
+        }
+
+        .lesson-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(233, 69, 96, 0.9);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-close:hover {
+            transform: scale(1.1);
+            background: #e94560;
+        }
+
+        /* Lesson content styles */
+        .lesson-content h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lesson-content h2 {
+            font-size: 1.5rem;
+            color: #e94560;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .lesson-content h3 {
+            font-size: 1.2rem;
+            color: #ccd6f6;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 15px;
+            color: #a8b2d1;
+        }
+
+        .lesson-content strong {
+            color: #ccd6f6;
+        }
+
+        .lesson-content ul, .lesson-content ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .lesson-content li {
+            margin-bottom: 8px;
+            color: #a8b2d1;
+        }
+
+        .lesson-content blockquote {
+            border-left: 4px solid #e94560;
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #8892b0;
+        }
+
+        .lesson-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .lesson-content th {
+            background: rgba(233, 69, 96, 0.2);
+            color: #e94560;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .lesson-content td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #a8b2d1;
+        }
+
+        .lesson-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lesson-content code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        .lesson-content pre {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #e94560;
+        }
+
+        .lesson-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .lesson-content hr {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 30px 0;
+        }
+
+        /* Expandable answers */
+        .lesson-content details {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .lesson-content summary {
+            padding: 15px 20px;
+            cursor: pointer;
+            color: #e94560;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .lesson-content summary:hover {
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        .lesson-content details[open] summary {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .lesson-content details > div,
+        .lesson-content details > p {
+            padding: 15px 20px;
+        }
+
+        /* Good/bad examples */
+        .example-good {
+            background: rgba(46, 213, 115, 0.1);
+            border-left: 4px solid #2ed573;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .example-bad {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 4px solid #ff4757;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .lesson-intro {
+            background: rgba(233, 69, 96, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .checklist {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            color: #a8b2d1;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #e94560;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #8892b0;
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.8rem;
@@ -227,6 +504,10 @@
 
             .topics {
                 padding-left: 25px;
+            }
+
+            .open-lesson-btn {
+                margin-left: 25px;
             }
 
             .module-header {
@@ -240,14 +521,21 @@
             .stat {
                 padding: 12px 20px;
             }
+
+            .lesson-close {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="main-view">
         <header>
             <h1>Академия Instinto</h1>
-            <p class="subtitle">Структура обучающих модулей для онлайн-менеджеров</p>
+            <p class="subtitle">Программа обучения для онлайн-менеджеров</p>
             <div class="stats">
                 <div class="stat">
                     <div class="stat-number">17</div>
@@ -257,15 +545,20 @@
                     <div class="stat-number">94</div>
                     <div class="stat-label">тем</div>
                 </div>
+                <div class="stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">урока готово</div>
+                </div>
             </div>
         </header>
 
-        <div class="section-divider">Базовый уровень</div>
+        <div class="section-divider">Базовый уровень (Неделя 1)</div>
 
+        <!-- Module 1 -->
         <div class="module open">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">1</div>
-                <div class="module-title">Введение в профессию и компанию</div>
+                <div class="module-title">Введение в профессию и компанию <span class="badge badge-ready">Урок готов</span></div>
                 <div class="module-toggle">▼</div>
             </div>
             <div class="module-content">
@@ -295,9 +588,11 @@
                         <span class="topic-text">Правила компании: опоздания, выходные, ОС с руководителем</span>
                     </div>
                 </div>
+                <button class="open-lesson-btn" onclick="openLesson('lesson1')">Открыть урок</button>
             </div>
         </div>
 
+        <!-- Module 2 -->
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">2</div>
@@ -308,7 +603,7 @@
                 <div class="topics">
                     <div class="topic">
                         <span class="topic-number">2.1</span>
-                        <span class="topic-text">Приветствие и установление контакта: совмещение в одном сообщении</span>
+                        <span class="topic-text">Приветствие и установление контакта</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">2.2</span>
@@ -316,11 +611,11 @@
                     </div>
                     <div class="topic">
                         <span class="topic-number">2.3</span>
-                        <span class="topic-text">Презентация товара: 2-3 варианта, понятный язык, схема "Купил-использовал-испытал"</span>
+                        <span class="topic-text">Презентация товара: 2-3 варианта, схема "Купил-использовал-испытал"</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">2.4</span>
-                        <span class="topic-text">Допродажи: сопутствующие товары, апсейл на больший объём, "плюшки"</span>
+                        <span class="topic-text">Допродажи: сопутствующие товары, апсейл, "плюшки"</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">2.5</span>
@@ -334,6 +629,7 @@
             </div>
         </div>
 
+        <!-- Module 3 -->
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">3</div>
@@ -360,7 +656,7 @@
                     </div>
                     <div class="topic">
                         <span class="topic-number">3.5</span>
-                        <span class="topic-text">Триггер халявы: бонусы, карты, бесплатная доставка, пороги</span>
+                        <span class="topic-text">Триггер халявы: бонусы, карты, бесплатная доставка</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">3.6</span>
@@ -374,10 +670,11 @@
             </div>
         </div>
 
+        <!-- Module 4 -->
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">4</div>
-                <div class="module-title">Знание продукта и товарные связки</div>
+                <div class="module-title">Знание продукта и товарные связки <span class="badge badge-ready">Урок готов</span></div>
                 <div class="module-toggle">▼</div>
             </div>
             <div class="module-content">
@@ -392,32 +689,26 @@
                     </div>
                     <div class="topic">
                         <span class="topic-number">4.3</span>
-                        <div class="topic-text">
-                            Товарные связки: что с чем предлагать (прямые и непрямые дополнения)
-                            <ul class="topic-details">
-                                <li>Мастурбаторы → смазка → очиститель → пудра</li>
-                                <li>Белье → чулки → пояс → халат → феромоны</li>
-                                <li>Тренажёры → гель для тренировок → очиститель → сужающий</li>
-                                <li>Возбуждающие → капли/капсулы → аксессуары БДСМ</li>
-                            </ul>
-                        </div>
+                        <span class="topic-text">Товарные связки: что с чем предлагать</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">4.4</span>
-                        <span class="topic-text">Как описывать товар "вкусно": ассоциации, эпитеты, ощущения</span>
+                        <span class="topic-text">Как описывать товар "вкусно": ассоциации, эпитеты</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">4.5</span>
                         <span class="topic-text">Затест товаров: пробы, примерки для лучшей презентации</span>
                     </div>
                 </div>
+                <button class="open-lesson-btn" onclick="openLesson('lesson4')">Открыть урок</button>
             </div>
         </div>
 
+        <!-- Module 5 -->
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">5</div>
-                <div class="module-title">Скрипты продаж по категориям товаров <span class="badge">Практика</span></div>
+                <div class="module-title">Скрипты продаж по категориям <span class="badge">Практика</span></div>
                 <div class="module-toggle">▼</div>
             </div>
             <div class="module-content">
@@ -450,8 +741,9 @@
             </div>
         </div>
 
-        <div class="section-divider">Технический уровень</div>
+        <div class="section-divider">Технический уровень (Неделя 2)</div>
 
+        <!-- Module 6 -->
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">6</div>
@@ -478,7 +770,7 @@
                     </div>
                     <div class="topic">
                         <span class="topic-number">6.5</span>
-                        <span class="topic-text">Работа в 1С: сверка карт, контроль отгрузки, заказы клиентов</span>
+                        <span class="topic-text">Работа в 1С: сверка карт, контроль отгрузки</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">6.6</span>
@@ -488,10 +780,11 @@
             </div>
         </div>
 
+        <!-- Module 7 -->
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">7</div>
-                <div class="module-title">Система тегов и касаний</div>
+                <div class="module-title">Система тегов и касаний <span class="badge badge-ready">Урок готов</span></div>
                 <div class="module-toggle">▼</div>
             </div>
             <div class="module-content">
@@ -514,16 +807,18 @@
                     </div>
                     <div class="topic">
                         <span class="topic-number">7.5</span>
-                        <span class="topic-text">Работа с брошенными корзинами: перевод в WhatsApp, возврат клиента</span>
+                        <span class="topic-text">Работа с брошенными корзинами: перевод в WhatsApp</span>
                     </div>
                     <div class="topic">
                         <span class="topic-number">7.6</span>
                         <span class="topic-text">Работа с "уснувшими" клиентами: периодичность касаний</span>
                     </div>
                 </div>
+                <button class="open-lesson-btn" onclick="openLesson('lesson7')">Открыть урок</button>
             </div>
         </div>
 
+        <!-- Modules 8-17 abbreviated -->
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">8</div>
@@ -532,30 +827,12 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">8.1</span>
-                        <span class="topic-text">Кто такой VIP: скидка 15%, метки, портрет в заметках</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">8.2</span>
-                        <span class="topic-text">Сопровождение на всех этапах: персонализация, упоминание истории</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">8.3</span>
-                        <span class="topic-text">Сопровождение после отправки: сценарии, гайды, рекомендации</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">8.4</span>
-                        <span class="topic-text">Контроль получения: мониторинг треков, ОС после доставки</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">8.5</span>
-                        <span class="topic-text">Периодическая связь: акции, новинки, без навязывания</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">8.6</span>
-                        <span class="topic-text">Ведение таблицы VIP-клиентов</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">8.1</span><span class="topic-text">Кто такой VIP: скидка 15%, метки, портрет в заметках</span></div>
+                    <div class="topic"><span class="topic-number">8.2</span><span class="topic-text">Сопровождение на всех этапах: персонализация</span></div>
+                    <div class="topic"><span class="topic-number">8.3</span><span class="topic-text">Сопровождение после отправки: сценарии, гайды</span></div>
+                    <div class="topic"><span class="topic-number">8.4</span><span class="topic-text">Контроль получения: мониторинг треков, ОС после доставки</span></div>
+                    <div class="topic"><span class="topic-number">8.5</span><span class="topic-text">Периодическая связь: акции, новинки, без навязывания</span></div>
+                    <div class="topic"><span class="topic-number">8.6</span><span class="topic-text">Ведение таблицы VIP-клиентов</span></div>
                 </div>
             </div>
         </div>
@@ -568,26 +845,11 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">9.1</span>
-                        <span class="topic-text">После отправки: гайды, сценарии использования, уход</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">9.2</span>
-                        <span class="topic-text">После получения: запрос отзыва, проверка качества</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">9.3</span>
-                        <span class="topic-text">Повторные продажи: когда и что предлагать</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">9.4</span>
-                        <span class="topic-text">Поздравления с ДР, персональные акции, инфоповоды</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">9.5</span>
-                        <span class="topic-text">Контроль отгрузки: проверка открытых заказов, брони, пошивы</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">9.1</span><span class="topic-text">После отправки: гайды, сценарии использования, уход</span></div>
+                    <div class="topic"><span class="topic-number">9.2</span><span class="topic-text">После получения: запрос отзыва, проверка качества</span></div>
+                    <div class="topic"><span class="topic-number">9.3</span><span class="topic-text">Повторные продажи: когда и что предлагать</span></div>
+                    <div class="topic"><span class="topic-number">9.4</span><span class="topic-text">Поздравления с ДР, персональные акции, инфоповоды</span></div>
+                    <div class="topic"><span class="topic-number">9.5</span><span class="topic-text">Контроль отгрузки: проверка открытых заказов, брони</span></div>
                 </div>
             </div>
         </div>
@@ -600,64 +862,31 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">10.1</span>
-                        <span class="topic-text">Наша ошибка: не тот товар, размер, цвет — извинения и решение</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">10.2</span>
-                        <span class="topic-text">Брак: возврат, замена, компенсация, адрес для возврата</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">10.3</span>
-                        <span class="topic-text">Не подошёл размер (без нашей вины): обмен за счёт клиента</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">10.4</span>
-                        <span class="topic-text">Субъективные претензии: "не понравился" — что можем, чего нет</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">10.5</span>
-                        <span class="topic-text">Конфликтные клиенты: когда передать, теги "проблемный"</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">10.6</span>
-                        <span class="topic-text">Связь с почтой по проблемным посылкам</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">10.1</span><span class="topic-text">Наша ошибка: не тот товар, размер, цвет — извинения и решение</span></div>
+                    <div class="topic"><span class="topic-number">10.2</span><span class="topic-text">Брак: возврат, замена, компенсация</span></div>
+                    <div class="topic"><span class="topic-number">10.3</span><span class="topic-text">Не подошёл размер (без нашей вины): обмен за счёт клиента</span></div>
+                    <div class="topic"><span class="topic-number">10.4</span><span class="topic-text">Субъективные претензии: "не понравился" — что можем</span></div>
+                    <div class="topic"><span class="topic-number">10.5</span><span class="topic-text">Конфликтные клиенты: когда передать, теги "проблемный"</span></div>
+                    <div class="topic"><span class="topic-number">10.6</span><span class="topic-text">Связь с почтой по проблемным посылкам</span></div>
                 </div>
             </div>
         </div>
 
-        <div class="section-divider">Продвинутый уровень</div>
+        <div class="section-divider">Продвинутый уровень (Неделя 3)</div>
 
         <div class="module">
             <div class="module-header" onclick="toggleModule(this)">
                 <div class="module-number">11</div>
-                <div class="module-title">Мультиканальность и неинтегрированные каналы</div>
+                <div class="module-title">Мультиканальность</div>
                 <div class="module-toggle">▼</div>
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">11.1</span>
-                        <span class="topic-text">Работа с сайтом: заказы, брошенные корзины, связь через WhatsApp</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">11.2</span>
-                        <span class="topic-text">Telegram-канал: обработка чатов, касания, оформление</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">11.3</span>
-                        <span class="topic-text">MomLife и другие площадки</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">11.4</span>
-                        <span class="topic-text">Перевод клиента между каналами: Instagram → WhatsApp</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">11.5</span>
-                        <span class="topic-text">Просмотр ссылок с телефона (сторис, рилсы)</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">11.1</span><span class="topic-text">Работа с сайтом: заказы, брошенные корзины</span></div>
+                    <div class="topic"><span class="topic-number">11.2</span><span class="topic-text">Telegram-канал: обработка чатов, касания, оформление</span></div>
+                    <div class="topic"><span class="topic-number">11.3</span><span class="topic-text">MomLife и другие площадки</span></div>
+                    <div class="topic"><span class="topic-number">11.4</span><span class="topic-text">Перевод клиента между каналами: Instagram → WhatsApp</span></div>
+                    <div class="topic"><span class="topic-number">11.5</span><span class="topic-text">Просмотр ссылок с телефона (сторис, рилсы)</span></div>
                 </div>
             </div>
         </div>
@@ -670,26 +899,11 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">12.1</span>
-                        <span class="topic-text">Контроль комментариев: ответ в течение 2 часов, перевод в чат</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">12.2</span>
-                        <span class="topic-text">Негатив в комментариях: скрин → удаление → эскалация</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">12.3</span>
-                        <span class="topic-text">Осведомлённость о постах и сторис: что публикуется</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">12.4</span>
-                        <span class="topic-text">Рекламные интеграции: таблица блогеров, даты выхода</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">12.5</span>
-                        <span class="topic-text">Воронки продаж: понимание пути клиента, отработка воронок</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">12.1</span><span class="topic-text">Контроль комментариев: ответ в течение 2 часов</span></div>
+                    <div class="topic"><span class="topic-number">12.2</span><span class="topic-text">Негатив в комментариях: скрин → удаление → эскалация</span></div>
+                    <div class="topic"><span class="topic-number">12.3</span><span class="topic-text">Осведомлённость о постах и сторис</span></div>
+                    <div class="topic"><span class="topic-number">12.4</span><span class="topic-text">Рекламные интеграции: таблица блогеров, даты выхода</span></div>
+                    <div class="topic"><span class="topic-number">12.5</span><span class="topic-text">Воронки продаж: понимание пути клиента</span></div>
                 </div>
             </div>
         </div>
@@ -704,30 +918,12 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">13.1</span>
-                        <span class="topic-text">Личный план: как формируется, органический прирост</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">13.2</span>
-                        <span class="topic-text">Средний чек: норма, бонус +2000 за выполнение</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">13.3</span>
-                        <span class="topic-text">Количество строк в заказе: глубина чека</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">13.4</span>
-                        <span class="topic-text">Крупные сделки (от 60 000): сверхбонус</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">13.5</span>
-                        <span class="topic-text">Скорость ответа: 5-7 мин первичный, 10-15 в диалоге</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">13.6</span>
-                        <span class="topic-text">Критерии оценки чатов: чеклист из 12 пунктов</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">13.1</span><span class="topic-text">Личный план: как формируется, органический прирост</span></div>
+                    <div class="topic"><span class="topic-number">13.2</span><span class="topic-text">Средний чек: норма, бонус +2000 за выполнение</span></div>
+                    <div class="topic"><span class="topic-number">13.3</span><span class="topic-text">Количество строк в заказе: глубина чека</span></div>
+                    <div class="topic"><span class="topic-number">13.4</span><span class="topic-text">Крупные сделки (от 60 000): сверхбонус</span></div>
+                    <div class="topic"><span class="topic-number">13.5</span><span class="topic-text">Скорость ответа: 5-7 мин первичный, 10-15 в диалоге</span></div>
+                    <div class="topic"><span class="topic-number">13.6</span><span class="topic-text">Критерии оценки чатов: чеклист из 12 пунктов</span></div>
                 </div>
             </div>
         </div>
@@ -740,30 +936,12 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">14.1</span>
-                        <span class="topic-text">Опоздания: фото ПК, 2 опоздания без штрафа, далее 1000+</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">14.2</span>
-                        <span class="topic-text">Вечерние дежурства: до 23:00, подмена, реклама</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">14.3</span>
-                        <span class="topic-text">Ошибки в заказах: забыли подарок/товар, ошибка в адресе</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">14.4</span>
-                        <span class="topic-text">Невыполнение регламентов: штрафы 1000-5000</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">14.5</span>
-                        <span class="topic-text">Сверки карт с казначейством</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">14.6</span>
-                        <span class="topic-text">ОС с руководителем: своевременное предоставление</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">14.1</span><span class="topic-text">Опоздания: фото ПК, 2 опоздания без штрафа, далее 1000+</span></div>
+                    <div class="topic"><span class="topic-number">14.2</span><span class="topic-text">Вечерние дежурства: до 23:00, подмена, реклама</span></div>
+                    <div class="topic"><span class="topic-number">14.3</span><span class="topic-text">Ошибки в заказах: забыли подарок/товар, ошибка в адресе</span></div>
+                    <div class="topic"><span class="topic-number">14.4</span><span class="topic-text">Невыполнение регламентов: штрафы 1000-5000</span></div>
+                    <div class="topic"><span class="topic-number">14.5</span><span class="topic-text">Сверки карт с казначейством</span></div>
+                    <div class="topic"><span class="topic-number">14.6</span><span class="topic-text">ОС с руководителем: своевременное предоставление</span></div>
                 </div>
             </div>
         </div>
@@ -776,22 +954,10 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">15.1</span>
-                        <span class="topic-text">Взаимодействие с администратором, закупщиком, контент-менеджером</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">15.2</span>
-                        <span class="topic-text">Передача чата коллеге: когда и как</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">15.3</span>
-                        <span class="topic-text">Обратная связь о популярных товарах и запросах</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">15.4</span>
-                        <span class="topic-text">Рабочие группы в Telegram: мини-отчёты, эскалации</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">15.1</span><span class="topic-text">Взаимодействие с администратором, закупщиком, контент-менеджером</span></div>
+                    <div class="topic"><span class="topic-number">15.2</span><span class="topic-text">Передача чата коллеге: когда и как</span></div>
+                    <div class="topic"><span class="topic-number">15.3</span><span class="topic-text">Обратная связь о популярных товарах и запросах</span></div>
+                    <div class="topic"><span class="topic-number">15.4</span><span class="topic-text">Рабочие группы в Telegram: мини-отчёты, эскалации</span></div>
                 </div>
             </div>
         </div>
@@ -804,26 +970,11 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">16.1</span>
-                        <span class="topic-text">Первичная аттестация: через 2 недели стажировки, порог 7 баллов</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">16.2</span>
-                        <span class="topic-text">Промежуточная аттестация: через месяц, порог 8 баллов</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">16.3</span>
-                        <span class="topic-text">Периодическая аттестация: знание товара</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">16.4</span>
-                        <span class="topic-text">Аттестационные билеты: 10 практических кейсов</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">16.5</span>
-                        <span class="topic-text">Влияние на мотивацию: -15% оклада при провале</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">16.1</span><span class="topic-text">Первичная аттестация: через 2 недели стажировки, порог 7 баллов</span></div>
+                    <div class="topic"><span class="topic-number">16.2</span><span class="topic-text">Промежуточная аттестация: через месяц, порог 8 баллов</span></div>
+                    <div class="topic"><span class="topic-number">16.3</span><span class="topic-text">Периодическая аттестация: знание товара</span></div>
+                    <div class="topic"><span class="topic-number">16.4</span><span class="topic-text">Аттестационные билеты: 10 практических кейсов</span></div>
+                    <div class="topic"><span class="topic-number">16.5</span><span class="topic-text">Влияние на мотивацию: -15% оклада при провале</span></div>
                 </div>
             </div>
         </div>
@@ -838,38 +989,28 @@
             </div>
             <div class="module-content">
                 <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">17.1</span>
-                        <span class="topic-text">Ввод стажёра: первичное обучение, пробные чаты под контролем</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">17.2</span>
-                        <span class="topic-text">Мини-отчёты раз в 3 дня</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">17.3</span>
-                        <span class="topic-text">Проведение аттестации: вопросы, баллы, критерии</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">17.4</span>
-                        <span class="topic-text">Испытательный месяц: сопровождение, передача опыта</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">17.5</span>
-                        <span class="topic-text">Контроль качества: разбор чатов, индивидуальные планы развития</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">17.6</span>
-                        <span class="topic-text">Делегирование: составление обучающих уроков, контроль дежурств</span>
-                    </div>
+                    <div class="topic"><span class="topic-number">17.1</span><span class="topic-text">Ввод стажёра: первичное обучение, пробные чаты под контролем</span></div>
+                    <div class="topic"><span class="topic-number">17.2</span><span class="topic-text">Мини-отчёты раз в 3 дня</span></div>
+                    <div class="topic"><span class="topic-number">17.3</span><span class="topic-text">Проведение аттестации: вопросы, баллы, критерии</span></div>
+                    <div class="topic"><span class="topic-number">17.4</span><span class="topic-text">Испытательный месяц: сопровождение, передача опыта</span></div>
+                    <div class="topic"><span class="topic-number">17.5</span><span class="topic-text">Контроль качества: разбор чатов, индивидуальные планы</span></div>
+                    <div class="topic"><span class="topic-number">17.6</span><span class="topic-text">Делегирование: составление обучающих уроков, контроль дежурств</span></div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <p>Академия Instinto — структура модулей v1.0</p>
+            <p>Академия Instinto v3.0</p>
             <p style="margin-top: 5px; opacity: 0.7;">Февраль 2026</p>
         </footer>
+    </div>
+
+    <!-- Lesson Modal -->
+    <div class="lesson-modal" id="lessonModal">
+        <button class="lesson-close" onclick="closeLesson()">&times;</button>
+        <div class="lesson-container">
+            <div class="lesson-content" id="lessonContent"></div>
+        </div>
     </div>
 
     <script>
@@ -877,6 +1018,510 @@
             const module = header.parentElement;
             module.classList.toggle('open');
         }
+
+        function openLesson(lessonId) {
+            const modal = document.getElementById('lessonModal');
+            const content = document.getElementById('lessonContent');
+
+            content.innerHTML = lessons[lessonId] || '<p>Урок ещё не готов</p>';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLesson() {
+            const modal = document.getElementById('lessonModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLesson();
+        });
+
+        // Lesson content
+        const lessons = {
+            lesson1: `
+                <h1>Модуль 1: О компании и основы продаж</h1>
+                <div class="lesson-intro">
+                    <strong>Что узнаешь:</strong> Кто мы, что делаем, как работают продажи
+                </div>
+
+                <h2>Часть 1: О компании INSTINTO</h2>
+
+                <h3>Кто мы</h3>
+                <p><strong>INSTINTO</strong> — это интернет-магазин красивого белья и интимных товаров.</p>
+                <p>Мы работаем с 2016 года. За это время помогли более 80 000 покупателям.</p>
+
+                <h3>Что мы продаём</h3>
+                <p>Главное — <strong>бельё</strong>. Но не простое, а особенное:</p>
+                <ul>
+                    <li>Красивые комплекты для особых случаев</li>
+                    <li>Корсеты, чулки, костюмы</li>
+                    <li>Эротическое бельё</li>
+                    <li>Товары для взрослых (БДСМ, аксессуары)</li>
+                </ul>
+
+                <h3>Почему люди покупают у нас</h3>
+                <p><strong>Главная причина — анонимность.</strong></p>
+                <p>Когда мы отправляем посылку, на ней <strong>ничего не написано</strong>. Никто не узнает, что внутри. Ни курьер, ни соседи, ни родственники.</p>
+                <p>Для многих это очень важно. Люди стесняются покупать такие вещи в обычных магазинах.</p>
+
+                <p><strong>Другие причины:</strong></p>
+                <ul>
+                    <li>Хорошее качество (работаем с европейскими брендами)</li>
+                    <li>Большой выбор</li>
+                    <li>Помощь с подбором размера</li>
+                    <li>Быстрая доставка по всей России</li>
+                </ul>
+
+                <h3>Наша миссия</h3>
+                <blockquote>"Искусство тайной чувственности"</blockquote>
+                <p>Мы помогаем людям чувствовать себя увереннее и привлекательнее. Без стеснения и осуждения.</p>
+
+                <h3>Кто наши клиенты</h3>
+                <ul>
+                    <li><strong>Женщины 25-45 лет</strong> — покупают для себя или в подарок от партнёра</li>
+                    <li><strong>Пары</strong> — хотят разнообразить отношения</li>
+                    <li><strong>Мужчины</strong> — покупают подарки (на годовщину, 14 февраля, день рождения)</li>
+                    <li><strong>Новички</strong> — первый раз покупают такие товары, нужна помощь</li>
+                </ul>
+
+                <hr>
+
+                <h2>Часть 2: Что такое продажи</h2>
+
+                <h3>Продажи — это не манипуляция</h3>
+                <p>Многие думают, что продавец — это человек, который заставляет купить ненужное.</p>
+                <p><strong>Это не так.</strong></p>
+                <p>Хороший продавец — это <strong>помощник</strong>. Он помогает человеку решить проблему или закрыть потребность.</p>
+
+                <div class="example-bad">
+                    <strong>Плохой продавец:</strong> "Бери вот этот, самый дорогой, он крутой"
+                </div>
+                <div class="example-good">
+                    <strong>Хороший продавец:</strong> "Для чего нужен? Для игр? Тогда вот эти модели подойдут, у них мощный процессор. А вот эта дешевле, но для игр слабовата"
+                </div>
+
+                <h3>Онлайн vs офлайн продажи</h3>
+                <table>
+                    <tr><th>Офлайн (в магазине)</th><th>Онлайн (в чате)</th></tr>
+                    <tr><td>Видишь клиента</td><td>Не видишь клиента</td></tr>
+                    <tr><td>Можешь показать товар руками</td><td>Показываешь фотографиями и описанием</td></tr>
+                    <tr><td>Быстрый ответ</td><td>Клиент может ответить через час</td></tr>
+                </table>
+
+                <p><strong>Наша работа — онлайн-продажи в чате.</strong> Это значит:</p>
+                <ul>
+                    <li>Нужно быстро отвечать (иначе клиент уйдёт к конкурентам)</li>
+                    <li>Нужно писать понятно и дружелюбно</li>
+                    <li>Нужно задавать правильные вопросы, чтобы понять что нужно</li>
+                </ul>
+
+                <hr>
+
+                <h2>Часть 3: Этапы продаж</h2>
+                <p>Любая продажа состоит из <strong>6 шагов</strong>. Если пропустить хоть один — клиент может уйти.</p>
+
+                <h3>Этап 1: Приветствие</h3>
+                <p><strong>Что делаешь:</strong> здороваешься и создаёшь первое впечатление</p>
+                <pre><code>Здравствуйте! Меня зовут Алина, я помогу вам выбрать. Что вас интересует?</code></pre>
+
+                <h3>Этап 2: Выявление потребностей</h3>
+                <p><strong>Что делаешь:</strong> задаёшь вопросы, чтобы понять что нужно</p>
+                <pre><code>Для себя или в подарок? Какой размер носите? Есть предпочтения по цвету?</code></pre>
+
+                <h3>Этап 3: Презентация товара</h3>
+                <p><strong>Что делаешь:</strong> показываешь товар и объясняешь почему он подходит</p>
+                <pre><code>Вот этот комплект из кружева, размер 75B. Он мягкий, не давит, подойдёт для романтического вечера. Цена 3500₽</code></pre>
+
+                <h3>Этап 4: Работа с возражениями</h3>
+                <p><strong>Что делаешь:</strong> отвечаешь на сомнения</p>
+                <p>Клиент: "Дорого"</p>
+                <pre><code>Это европейское качество, прослужит несколько лет. Есть вариант попроще за 2000₽, но ткань будет тоньше</code></pre>
+
+                <h3>Этап 5: Закрытие сделки</h3>
+                <p><strong>Что делаешь:</strong> предлагаешь оформить заказ</p>
+                <pre><code>Оформляем? Подскажите адрес доставки и удобный способ оплаты</code></pre>
+
+                <h3>Этап 6: Допродажа</h3>
+                <p><strong>Что делаешь:</strong> предлагаешь сопутствующие товары</p>
+                <pre><code>К этому комплекту отлично подойдут чулки. Хотите добавить?</code></pre>
+
+                <hr>
+
+                <h2>Итоговый тест</h2>
+
+                <h3>Кейс 1: Главное преимущество</h3>
+                <p><strong>Ситуация:</strong> Клиент спрашивает: "Чем вы отличаетесь от других магазинов белья?" Что ответить?</p>
+                <p>A) "У нас самые низкие цены на рынке"</p>
+                <p>B) "Мы гарантируем полную анонимность — на посылке ничего не написано"</p>
+                <p>C) "У нас самый большой выбор товаров"</p>
+                <p>D) "Мы работаем быстрее всех"</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: B</strong></p>
+                        <p>Анонимность — главная причина почему клиенты выбирают INSTINTO. Это то, что действительно важно для покупателей интимных товаров.</p>
+                    </div>
+                </details>
+
+                <h3>Кейс 2: Роль продавца</h3>
+                <p><strong>Ситуация:</strong> Новичок говорит: "Я не хочу никого уговаривать покупать, мне неприятно давить на людей". Что ему ответить?</p>
+                <p>A) "В продажах нужно уметь уговаривать, иначе никто не купит"</p>
+                <p>B) "Ты просто предлагаешь товар, а покупать или нет — их решение"</p>
+                <p>C) "Хороший продавец — это помощник, который помогает человеку решить его задачу"</p>
+                <p>D) "Давить не нужно, просто скидывай каталог и жди когда выберут"</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: C</strong></p>
+                        <p>Точно отражает суть продаж в INSTINTO — помощник, а не манипулятор. Ты выявляешь потребность и помогаешь выбрать.</p>
+                    </div>
+                </details>
+
+                <h3>Кейс 3: Порядок этапов</h3>
+                <p><strong>Ситуация:</strong> Клиент написал "Хочу комплект". Что делать дальше?</p>
+                <p>A) Сразу отправить каталог всех комплектов</p>
+                <p>B) Спросить: "Для какого случая ищете? Какой размер носите?"</p>
+                <p>C) Предложить самый популярный комплект</p>
+                <p>D) Спросить: "Какой бюджет?"</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: B</strong></p>
+                        <p>Это правильный этап "Выявление потребностей". Сначала узнаёшь что нужно, потом предлагаешь.</p>
+                    </div>
+                </details>
+
+                <hr>
+
+                <div class="checklist">
+                    <h3>Чек-лист: я готов двигаться дальше</h3>
+                    <label class="checklist-item"><input type="checkbox"> Прочитал весь модуль</label>
+                    <label class="checklist-item"><input type="checkbox"> Понял что такое этапы продаж</label>
+                    <label class="checklist-item"><input type="checkbox"> Могу своими словами объяснить зачем нужна анонимность</label>
+                    <label class="checklist-item"><input type="checkbox"> Прошёл итоговый тест</label>
+                </div>
+            `,
+            lesson4: `
+                <h1>Модуль 4: Категории товаров</h1>
+                <div class="lesson-intro">
+                    <strong>Что узнаешь:</strong> Какое бельё мы продаём и как подбирать размер
+                </div>
+
+                <h2>Часть 1: Нижнее бельё</h2>
+
+                <p><strong>Нижнее бельё</strong> — это обычное бельё на каждый день. Бюстгальтеры, трусы, комплекты.</p>
+                <p>Это <strong>самая популярная категория</strong> — 35% всех продаж.</p>
+
+                <h3>Типы бюстгальтеров</h3>
+                <table>
+                    <tr><th>Тип</th><th>Для чего</th><th>Кому подойдёт</th></tr>
+                    <tr><td><strong>Push-up</strong></td><td>Визуально увеличить грудь</td><td>Маленькая или средняя грудь</td></tr>
+                    <tr><td><strong>Без косточек</strong></td><td>Комфорт на каждый день</td><td>Всем, особенно для дома</td></tr>
+                    <tr><td><strong>Бралетт</strong></td><td>Лёгкий, без чашек</td><td>Маленькая грудь (до C)</td></tr>
+                    <tr><td><strong>Балконет</strong></td><td>Красивое декольте</td><td>Средняя и большая грудь</td></tr>
+                    <tr><td><strong>Полная чашка</strong></td><td>Хорошая поддержка</td><td>Большая грудь (от D)</td></tr>
+                </table>
+
+                <h3>Типы трусов</h3>
+                <table>
+                    <tr><th>Тип</th><th>Как выглядят</th><th>Для чего</th></tr>
+                    <tr><td><strong>Слипы</strong></td><td>Классические, полностью закрывают</td><td>Комфорт, каждый день</td></tr>
+                    <tr><td><strong>Стринги</strong></td><td>Только спереди, сзади верёвочка</td><td>Под облегающую одежду</td></tr>
+                    <tr><td><strong>Бразилиана</strong></td><td>Закрывают половину ягодиц</td><td>Золотая середина</td></tr>
+                    <tr><td><strong>Шортики</strong></td><td>Как маленькие шорты</td><td>Очень удобно, особенно летом</td></tr>
+                </table>
+
+                <h3>Ценник</h3>
+                <ul>
+                    <li><strong>Бюджет:</strong> 2 300 - 3 500 ₽</li>
+                    <li><strong>Средний:</strong> 3 500 - 5 500 ₽</li>
+                    <li><strong>Премиум:</strong> 5 500 - 11 000 ₽</li>
+                </ul>
+
+                <hr>
+
+                <h2>Часть 2: Пижамы и домашняя одежда</h2>
+
+                <p>У нас это <strong>вторая по популярности категория</strong> — 15% продаж.</p>
+
+                <h3>Материалы</h3>
+                <table>
+                    <tr><th>Материал</th><th>Плюсы</th><th>Минусы</th><th>Когда носить</th></tr>
+                    <tr><td><strong>Шёлк</strong></td><td>Приятный к телу, красиво</td><td>Дорогой</td><td>Лето, для подарка</td></tr>
+                    <tr><td><strong>Хлопок</strong></td><td>Дышит, не вызывает аллергию</td><td>Выглядит проще</td><td>Круглый год</td></tr>
+                    <tr><td><strong>Сатин</strong></td><td>Блестит как шёлк, но дешевле</td><td>Не 100% натуральный</td><td>Круглый год</td></tr>
+                    <tr><td><strong>Велюр</strong></td><td>Мягкий, тёплый</td><td>Жарко летом</td><td>Зима</td></tr>
+                </table>
+
+                <hr>
+
+                <h2>Часть 3: Подбор размера бюстгальтера</h2>
+
+                <p><strong>Главная причина отказа от покупки</strong> — "не уверен в размере".</p>
+                <p>Если ты умеешь помогать с размером — клиент купит. Если нет — уйдёт думать.</p>
+
+                <h3>Как обозначается размер</h3>
+                <p>Размер бюстгальтера состоит из <strong>двух частей</strong>:</p>
+                <p><strong>Пример: 75B</strong></p>
+                <ul>
+                    <li><strong>75</strong> — обхват под грудью (в сантиметрах)</li>
+                    <li><strong>B</strong> — размер чашки (объём груди)</li>
+                </ul>
+
+                <h3>Как узнать размер</h3>
+
+                <p><strong>Способ 1: Клиент знает свой размер</strong></p>
+                <p>Просто спроси: "Какой размер вы обычно носите?"</p>
+
+                <p><strong>Способ 2: Клиент не знает размер</strong></p>
+                <p>Задай два вопроса:</p>
+                <ol>
+                    <li>"Измерьте обхват под грудью. Сколько сантиметров?"</li>
+                    <li>"Измерьте обхват по самой выступающей части груди. Сколько?"</li>
+                </ol>
+
+                <p>Считаем разницу и смотрим в табличку:</p>
+                <table>
+                    <tr><th>Разница (см)</th><th>Размер чашки</th></tr>
+                    <tr><td>10-12</td><td>A</td></tr>
+                    <tr><td>12-14</td><td>B</td></tr>
+                    <tr><td>14-16</td><td>C</td></tr>
+                    <tr><td>16-18</td><td>D</td></tr>
+                    <tr><td>18-20</td><td>E</td></tr>
+                </table>
+
+                <p><strong>Способ 3: Клиент покупает в подарок</strong></p>
+                <p>Скажи: "Посмотрите на бирку на её бюстгальтере. Там написан размер. Скиньте фото бирки"</p>
+
+                <hr>
+
+                <h2>Итоговый тест</h2>
+
+                <h3>Кейс 1: Подбор типа бюстгальтера</h3>
+                <p><strong>Ситуация:</strong> Клиентка: "У меня большая грудь (размер E), хочу чтобы хорошо держал. Что посоветуете?"</p>
+                <p>A) Бралетт</p>
+                <p>B) Push-up</p>
+                <p>C) Полная чашка</p>
+                <p>D) Балконет</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: C</strong></p>
+                        <p>Полная чашка специально для большой груди (от D) — обеспечивает хорошую поддержку.</p>
+                    </div>
+                </details>
+
+                <h3>Кейс 2: Расчёт размера</h3>
+                <p><strong>Ситуация:</strong> Обхват под грудью — 77 см, обхват по груди — 91 см. Какой размер?</p>
+                <p>A) 75B</p>
+                <p>B) 75C или 80C</p>
+                <p>C) 80B</p>
+                <p>D) 70C</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: B</strong></p>
+                        <p>Обхват 77 см → размер 75 или 80. Разница 91-77=14 см → чашка C. Предлагаем оба варианта.</p>
+                    </div>
+                </details>
+
+                <h3>Кейс 3: Подарок</h3>
+                <p><strong>Ситуация:</strong> "Хочу купить комплект жене в подарок. Не знаю её размер". Что делать?</p>
+                <p>A) "Тогда ничем не могу помочь"</p>
+                <p>B) Предложить универсальный размер 75B</p>
+                <p>C) "Посмотрите на бирку её бюстгальтера — скиньте фото"</p>
+                <p>D) Предложить пижаму вместо комплекта</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: C</strong></p>
+                        <p>Стандартный способ узнать размер для подарка — посмотреть бирку на её белье.</p>
+                    </div>
+                </details>
+
+                <hr>
+
+                <div class="checklist">
+                    <h3>Чек-лист: я готов двигаться дальше</h3>
+                    <label class="checklist-item"><input type="checkbox"> Знаю разницу между push-up, бралеттом и балконетом</label>
+                    <label class="checklist-item"><input type="checkbox"> Знаю типы трусов (слипы, стринги, бразилиана)</label>
+                    <label class="checklist-item"><input type="checkbox"> Знаю материалы пижам (шёлк, хлопок, сатин)</label>
+                    <label class="checklist-item"><input type="checkbox"> Умею считать размер бюстгальтера по замерам</label>
+                    <label class="checklist-item"><input type="checkbox"> Прошёл итоговый тест</label>
+                </div>
+            `,
+            lesson7: `
+                <h1>Модуль 7: Этап приветствия</h1>
+                <div class="lesson-intro">
+                    <strong>Что узнаешь:</strong> Как правильно начинать разговор с клиентом
+                </div>
+
+                <h2>Зачем нужно приветствие</h2>
+
+                <p>Первое впечатление решает всё.</p>
+
+                <p><strong>Факт:</strong> 70% клиентов уходят, если менеджер:</p>
+                <ul>
+                    <li>Ответил медленно (больше 5 минут)</li>
+                    <li>Написал сухо или грубо</li>
+                    <li>Начал сразу продавать</li>
+                </ul>
+
+                <p><strong>Твоя задача в приветствии:</strong></p>
+                <ol>
+                    <li>Показать что ты здесь и готов помочь</li>
+                    <li>Создать дружелюбную атмосферу</li>
+                    <li>Выяснить с чем пришёл клиент</li>
+                </ol>
+
+                <hr>
+
+                <h2>Формула правильного приветствия</h2>
+
+                <p>Каждое приветствие состоит из <strong>3 частей</strong>:</p>
+
+                <h3>1. Приветствие</h3>
+                <p>"Здравствуйте!" или "Добрый день!"</p>
+                <p><strong>Важно:</strong> Всегда с восклицательным знаком. Без смайликов.</p>
+
+                <h3>2. Представление</h3>
+                <p>"Меня зовут [Имя]"</p>
+                <p><strong>Зачем:</strong> Клиент видит что с ним общается живой человек, а не робот.</p>
+
+                <h3>3. Готовность помочь</h3>
+                <p>"Я помогу вам выбрать" или "Чем могу помочь?"</p>
+
+                <h3>Базовое приветствие:</h3>
+                <pre><code>Здравствуйте! Меня зовут Алина, я помогу вам выбрать. Что вы ищете?</code></pre>
+
+                <hr>
+
+                <h2>Примеры: Хорошо vs Плохо</h2>
+
+                <h3>Пример 1</h3>
+                <p><strong>Клиент:</strong> "Здравствуйте"</p>
+
+                <div class="example-bad">
+                    <strong>Плохо:</strong> "Здравствуйте"<br>
+                    <em>Почему плохо:</em> Сухо. Клиент не знает что делать дальше.
+                </div>
+
+                <div class="example-good">
+                    <strong>Хорошо:</strong> "Здравствуйте! Меня зовут Аня, помогу с выбором. Что вы ищете?"<br>
+                    <em>Почему хорошо:</em> Дружелюбно, понятно что делать дальше.
+                </div>
+
+                <h3>Пример 2</h3>
+                <p><strong>Клиент:</strong> "Хочу купить комплект"</p>
+
+                <div class="example-bad">
+                    <strong>Плохо:</strong> "Хорошо. Какой размер?"<br>
+                    <em>Почему плохо:</em> Звучит как робот. Не поздоровался.
+                </div>
+
+                <div class="example-good">
+                    <strong>Хорошо:</strong> "Здравствуйте! Меня зовут Лена. Отлично, помогу подобрать комплект. Для какого случая ищете? На каждый день или для особого вечера?"<br>
+                    <em>Почему хорошо:</em> Поздоровался, задал правильный вопрос.
+                </div>
+
+                <h3>Пример 3: Клиент грубит</h3>
+                <p><strong>Клиент:</strong> "Есть кто живой вообще?"</p>
+
+                <div class="example-good">
+                    <strong>Правильно:</strong> "Здравствуйте! Да, я на связи. Меня зовут Олеся, помогу с выбором. Что вас интересует?"<br>
+                    <em>Правило:</em> Даже если клиент грубит — ты всегда вежливый.
+                </div>
+
+                <hr>
+
+                <h2>Типичные ошибки новичков</h2>
+
+                <h3>Ошибка 1: Забыл представиться</h3>
+                <div class="example-bad">"Здравствуйте! Чем могу помочь?"</div>
+                <div class="example-good">"Здравствуйте! Меня зовут Аня. Чем могу помочь?"</div>
+
+                <h3>Ошибка 2: Слишком много текста</h3>
+                <div class="example-bad">"Здравствуйте! Меня зовут Марина, я онлайн-консультант магазина INSTINTO. Рады приветствовать вас в нашем магазине! Мы работаем с 2016 года..."</div>
+                <div class="example-good">"Здравствуйте! Меня зовут Марина, помогу с выбором. Что вас интересует?"</div>
+
+                <h3>Ошибка 3: Сразу продаёт</h3>
+                <div class="example-bad">"Здравствуйте! Сегодня у нас скидка 20% на комплекты! Вот каталог..."</div>
+                <div class="example-good">"Здравствуйте! Меня зовут Катя. Что вы ищете?"</div>
+
+                <h3>Ошибка 4: Использует смайлики</h3>
+                <div class="example-bad">"Здравствуйте! 😊 Меня зовут Лена 👋 Помогу с выбором! 💕"</div>
+                <div class="example-good">"Здравствуйте! Меня зовут Лена, помогу с выбором."</div>
+
+                <hr>
+
+                <h2>Итоговый тест</h2>
+
+                <h3>Кейс 1: Ночное сообщение</h3>
+                <p><strong>Ситуация:</strong> Клиент написал в 23:30 "Здравствуйте". Сейчас 9:15. Что ответить?</p>
+                <p>A) "Здравствуйте! Комплекты от 2500₽, вот каталог"</p>
+                <p>B) "Доброе утро! Меня зовут Анна. Извините за задержку, мы работаем до 21:00. Помогу подобрать. Что ищете?"</p>
+                <p>C) "Привет! Извините что не ответила ночью, я спала"</p>
+                <p>D) "Здравствуйте! Что вас интересует?"</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: B</strong></p>
+                        <p>Поздоровался по времени суток, представился, объяснил задержку корректно, задал уточняющий вопрос.</p>
+                    </div>
+                </details>
+
+                <h3>Кейс 2: Грубый клиент</h3>
+                <p><strong>Ситуация:</strong> Клиент: "Есть кто живой вообще??? Или все спите там???"</p>
+                <p>A) "Извините-извините! Да, я здесь!"</p>
+                <p>B) "Здравствуйте! Да, я на связи. Меня зовут Олеся, помогу с выбором. Что вас интересует?"</p>
+                <p>C) "Мы работаем с 9 до 21. Чем помочь?"</p>
+                <p>D) "Не нужно грубить. Я на связи."</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: B</strong></p>
+                        <p>Спокойный тон, вежливость (не опустился до уровня клиента), представился, готовность помочь.</p>
+                    </div>
+                </details>
+
+                <h3>Кейс 3: Вопрос про цену сразу</h3>
+                <p><strong>Ситуация:</strong> Первое сообщение: "Сколько стоит комплект?"</p>
+                <p>A) "От 2500 до 11000 рублей"</p>
+                <p>B) "Здравствуйте! Меня зовут Марина. У нас комплекты от 2500₽ до 11000₽. Для какого случая ищете?"</p>
+                <p>C) "Здравствуйте! Какой именно комплект?"</p>
+                <p>D) "Добрый день! Вот каталог со всеми ценами"</p>
+
+                <details>
+                    <summary>Правильный ответ</summary>
+                    <div>
+                        <p><strong>Правильно: B</strong></p>
+                        <p>Поздоровался, представился, дал ценовой диапазон (ответил на вопрос), задал уточняющий вопрос.</p>
+                    </div>
+                </details>
+
+                <hr>
+
+                <div class="checklist">
+                    <h3>Чек-лист: я освоил приветствие</h3>
+                    <label class="checklist-item"><input type="checkbox"> Знаю формулу: приветствие + имя + готовность помочь</label>
+                    <label class="checklist-item"><input type="checkbox"> Понимаю почему нельзя использовать смайлики</label>
+                    <label class="checklist-item"><input type="checkbox"> Знаю как реагировать если клиент грубит</label>
+                    <label class="checklist-item"><input type="checkbox"> Знаю что делать если клиент написал ночью</label>
+                    <label class="checklist-item"><input type="checkbox"> Прошёл итоговый тест</label>
+                </div>
+            `
+        };
     </script>
 </body>
 </html>
