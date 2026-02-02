@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Академия Instinto — Структура модулей</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #8892b0;
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: rgba(255,255,255,0.05);
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e94560;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #8892b0;
+        }
+
+        .module {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .module:hover {
+            border-color: rgba(233, 69, 96, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .module-header {
+            background: rgba(233, 69, 96, 0.1);
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .module-number {
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .module-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .module-toggle {
+            color: #8892b0;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .module.open .module-toggle {
+            transform: rotate(180deg);
+        }
+
+        .module-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .module.open .module-content {
+            max-height: 1000px;
+        }
+
+        .topics {
+            padding: 20px 25px;
+            padding-left: 85px;
+        }
+
+        .topic {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            gap: 12px;
+        }
+
+        .topic:last-child {
+            border-bottom: none;
+        }
+
+        .topic-number {
+            color: #e94560;
+            font-weight: 600;
+            flex-shrink: 0;
+            width: 50px;
+        }
+
+        .topic-text {
+            color: #ccd6f6;
+        }
+
+        .topic-details {
+            margin-top: 8px;
+            padding-left: 15px;
+            font-size: 0.9rem;
+            color: #8892b0;
+        }
+
+        .topic-details li {
+            margin-bottom: 4px;
+            list-style: none;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .topic-details li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #e94560;
+        }
+
+        .section-divider {
+            text-align: center;
+            margin: 40px 0;
+            color: #8892b0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #8892b0;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(233, 69, 96, 0.2);
+            color: #e94560;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .topics {
+                padding-left: 25px;
+            }
+
+            .module-header {
+                padding: 15px;
+            }
+
+            .stats {
+                gap: 15px;
+            }
+
+            .stat {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Академия Instinto</h1>
+            <p class="subtitle">Структура обучающих модулей для онлайн-менеджеров</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">17</div>
+                    <div class="stat-label">модулей</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">95</div>
+                    <div class="stat-label">тем</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="section-divider">Базовый уровень</div>
+
+        <div class="module open">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">1</div>
+                <div class="module-title">Введение в профессию и компанию</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">1.1</span>
+                        <span class="topic-text">Цели и миссия компании Instinto, позиционирование бренда</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">1.2</span>
+                        <span class="topic-text">Роль онлайн-консультанта: задачи, зона ответственности</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">1.3</span>
+                        <span class="topic-text">Преимущества и ограничения онлайн-формата</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">1.4</span>
+                        <span class="topic-text">Типичные ошибки новичков: споры, многословие, навязывание</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">1.5</span>
+                        <span class="topic-text">Организация рабочего дня: фото рабочего дня, дежурства</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">1.6</span>
+                        <span class="topic-text">Правила компании: опоздания, выходные, ОС с руководителем</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">2</div>
+                <div class="module-title">Этапы продаж в онлайн-формате</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">2.1</span>
+                        <span class="topic-text">Приветствие и установление контакта: совмещение в одном сообщении</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">2.2</span>
+                        <span class="topic-text">Выявление потребностей: открытые вопросы, портрет клиента</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">2.3</span>
+                        <span class="topic-text">Презентация товара: 2-3 варианта, понятный язык, схема "Купил-использовал-испытал"</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">2.4</span>
+                        <span class="topic-text">Допродажи: сопутствующие товары, апсейл на больший объём, "плюшки"</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">2.5</span>
+                        <span class="topic-text">Работа с возражениями: истинные, ложные, условно-объективные</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">2.6</span>
+                        <span class="topic-text">Завершение сделки: фиксация товара, запрос данных, подтверждение оплаты</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">3</div>
+                <div class="module-title">Психология продаж и триггеры</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">3.1</span>
+                        <span class="topic-text">Триггер доверия: отзывы, рекомендации, личный опыт</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">3.2</span>
+                        <span class="topic-text">Триггер безопасности: состав, сертификаты, безопасная доставка</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">3.3</span>
+                        <span class="topic-text">Триггер ограниченности: время акции, остатки, дедлайны</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">3.4</span>
+                        <span class="topic-text">Триггер эмоций: истории, ДО/ПОСЛЕ, картина будущего</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">3.5</span>
+                        <span class="topic-text">Триггер халявы: бонусы, карты, бесплатная доставка, пороги</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">3.6</span>
+                        <span class="topic-text">Триггер переноса ответственности: "доверьтесь моему опыту"</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">3.7</span>
+                        <span class="topic-text">Триггер эксклюзивности: ограниченные партии, индивидуальный пошив</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">4</div>
+                <div class="module-title">Знание продукта и товарные связки</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">4.1</span>
+                        <span class="topic-text">Категории ассортимента: интимная косметика, белье, игрушки, аксессуары, уход</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">4.2</span>
+                        <span class="topic-text">ТОП-товары месяца: что продаётся лучше всего</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">4.3</span>
+                        <div class="topic-text">
+                            Товарные связки: что с чем предлагать (прямые и непрямые дополнения)
+                            <ul class="topic-details">
+                                <li>Мастурбаторы → смазка → очиститель → пудра</li>
+                                <li>Белье → чулки → пояс → халат → феромоны</li>
+                                <li>Тренажёры → гель для тренировок → очиститель → сужающий</li>
+                                <li>Возбуждающие → капли/капсулы → игрушки → БДСМ</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">4.4</span>
+                        <span class="topic-text">Как описывать товар "вкусно": ассоциации, эпитеты, ощущения</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">4.5</span>
+                        <span class="topic-text">Затест товаров: пробы, примерки для лучшей презентации</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">5</div>
+                <div class="module-title">Скрипты продаж по категориям товаров <span class="badge">Практика</span></div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">5.1</span>
+                        <span class="topic-text">Клиент спрашивает "Цена?" — структура ответа</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">5.2</span>
+                        <span class="topic-text">Запрос на игрушку: выявление опыта, презентация моделей</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">5.3</span>
+                        <span class="topic-text">Запрос на возбуждающие средства: диагностика проблемы, подбор</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">5.4</span>
+                        <span class="topic-text">Запрос на вагинальные тренажёры: сужающий гель vs тренажёр</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">5.5</span>
+                        <span class="topic-text">Запрос на белье: уточнение размера, push-up vs кружево</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">5.6</span>
+                        <span class="topic-text">Запрос на феромоны: подбор по предпочтениям ароматов</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">5.7</span>
+                        <span class="topic-text">Запрос на отбеливающий крем: гоммаж + увлажнение</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">Технический уровень</div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">6</div>
+                <div class="module-title">Работа в CRM и 1С</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">6.1</span>
+                        <span class="topic-text">Интерфейс CRM: чаты, фильтры, статусы, назначение</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">6.2</span>
+                        <span class="topic-text">Карточка клиента: ФИО, телефон, адрес, история, заметки</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">6.3</span>
+                        <span class="topic-text">Оформление заказа: корзина, скидки, промокоды, доставка</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">6.4</span>
+                        <span class="topic-text">Проверка оплаты и статусы: ЧАТ → КОМПЛЕКТУЕТСЯ → отправлен</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">6.5</span>
+                        <span class="topic-text">Работа в 1С: сверка карт, контроль отгрузки, заказы клиентов</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">6.6</span>
+                        <span class="topic-text">Работа с заказами сайта: неоплаченные корзины</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">7</div>
+                <div class="module-title">Система тегов и касаний</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">7.1</span>
+                        <span class="topic-text">Маячки: как напоминать без навязывания (максимум 2 касания)</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">7.2</span>
+                        <span class="topic-text">Шаблоны касаний: первое и второе касание</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">7.3</span>
+                        <span class="topic-text">Система тегов: VIP, %, блогер, ждёт товар, проблема, бонус</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">7.4</span>
+                        <span class="topic-text">Сортировка по тегам: ежедневно, раз в 3 дня, раз в неделю</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">7.5</span>
+                        <span class="topic-text">Работа с брошенными корзинами: перевод в WhatsApp, возврат клиента</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">7.6</span>
+                        <span class="topic-text">Работа с "уснувшими" клиентами: периодичность касаний</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">8</div>
+                <div class="module-title">VIP-клиенты и ключевые клиенты <span class="badge">30/мес</span></div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">8.1</span>
+                        <span class="topic-text">Кто такой VIP: скидка 15%, метки, портрет в заметках</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">8.2</span>
+                        <span class="topic-text">Сопровождение на всех этапах: персонализация, упоминание истории</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">8.3</span>
+                        <span class="topic-text">Сопровождение после отправки: сценарии, гайды, рекомендации</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">8.4</span>
+                        <span class="topic-text">Контроль получения: мониторинг треков, ОС после доставки</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">8.5</span>
+                        <span class="topic-text">Периодическая связь: акции, новинки, без навязывания</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">8.6</span>
+                        <span class="topic-text">Ведение таблицы VIP-клиентов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">9</div>
+                <div class="module-title">Ведение клиента после продажи</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">9.1</span>
+                        <span class="topic-text">После отправки: гайды, сценарии использования, уход</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">9.2</span>
+                        <span class="topic-text">После получения: запрос отзыва, проверка качества</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">9.3</span>
+                        <span class="topic-text">Повторные продажи: когда и что предлагать</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">9.4</span>
+                        <span class="topic-text">Поздравления с ДР, персональные акции, инфоповоды</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">9.5</span>
+                        <span class="topic-text">Контроль отгрузки: проверка открытых заказов, брони, пошивы</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">10</div>
+                <div class="module-title">Проблемные ситуации и возвраты</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">10.1</span>
+                        <span class="topic-text">Наша ошибка: не тот товар, размер, цвет — извинения и решение</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">10.2</span>
+                        <span class="topic-text">Брак: возврат, замена, компенсация, адрес для возврата</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">10.3</span>
+                        <span class="topic-text">Не подошёл размер (без нашей вины): обмен за счёт клиента</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">10.4</span>
+                        <span class="topic-text">Субъективные претензии: "не понравился" — что можем, чего нет</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">10.5</span>
+                        <span class="topic-text">Конфликтные клиенты: когда передать, теги "проблемный"</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">10.6</span>
+                        <span class="topic-text">Связь с почтой по проблемным посылкам</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">Продвинутый уровень</div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">11</div>
+                <div class="module-title">Мультиканальность и неинтегрированные каналы</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">11.1</span>
+                        <span class="topic-text">Работа с сайтом: заказы, брошенные корзины, связь через WhatsApp</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">11.2</span>
+                        <span class="topic-text">Telegram-канал: обработка чатов, касания, оформление</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">11.3</span>
+                        <span class="topic-text">MomLife и другие площадки</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">11.4</span>
+                        <span class="topic-text">Перевод клиента между каналами: Instagram → WhatsApp</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">11.5</span>
+                        <span class="topic-text">Просмотр ссылок с телефона (сторис, рилсы)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">12</div>
+                <div class="module-title">Контент и рекламные интеграции</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">12.1</span>
+                        <span class="topic-text">Контроль комментариев: ответ в течение 2 часов, перевод в чат</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">12.2</span>
+                        <span class="topic-text">Негатив в комментариях: скрин → удаление → эскалация</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">12.3</span>
+                        <span class="topic-text">Осведомлённость о постах и сторис: что публикуется</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">12.4</span>
+                        <span class="topic-text">Рекламные интеграции: таблица блогеров, даты выхода</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">12.5</span>
+                        <span class="topic-text">Воронки продаж: понимание пути клиента, отработка воронок</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">Управление и KPI</div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">13</div>
+                <div class="module-title">KPI и система мотивации</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">13.1</span>
+                        <span class="topic-text">Личный план: как формируется, органический прирост</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">13.2</span>
+                        <span class="topic-text">Средний чек: норма, бонус +2000 за выполнение</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">13.3</span>
+                        <span class="topic-text">Количество строк в заказе: глубина чека</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">13.4</span>
+                        <span class="topic-text">Крупные сделки (от 60 000): сверхбонус</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">13.5</span>
+                        <span class="topic-text">Скорость ответа: 5-7 мин первичный, 10-15 в диалоге</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">13.6</span>
+                        <span class="topic-text">Критерии оценки чатов: чеклист из 12 пунктов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">14</div>
+                <div class="module-title">Штрафы и правила</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">14.1</span>
+                        <span class="topic-text">Опоздания: фото ПК, 2 опоздания без штрафа, далее 1000+</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">14.2</span>
+                        <span class="topic-text">Вечерние дежурства: до 23:00, подмена, реклама</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">14.3</span>
+                        <span class="topic-text">Ошибки в заказах: забыли подарок/товар, ошибка в адресе</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">14.4</span>
+                        <span class="topic-text">Невыполнение регламентов: штрафы 1000-5000</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">14.5</span>
+                        <span class="topic-text">Сверки карт с казначейством</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">14.6</span>
+                        <span class="topic-text">ОС с руководителем: своевременное предоставление</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">15</div>
+                <div class="module-title">Коммуникация внутри команды</div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">15.1</span>
+                        <span class="topic-text">Взаимодействие с администратором, закупщиком, контент-менеджером</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">15.2</span>
+                        <span class="topic-text">Передача чата коллеге: когда и как</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">15.3</span>
+                        <span class="topic-text">Обратная связь о популярных товарах и запросах</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">15.4</span>
+                        <span class="topic-text">Рабочие группы в Telegram: мини-отчёты, эскалации</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">16</div>
+                <div class="module-title">Аттестация <span class="badge">Экзамен</span></div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">16.1</span>
+                        <span class="topic-text">Первичная аттестация: через 2 недели стажировки, порог 7 баллов</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">16.2</span>
+                        <span class="topic-text">Промежуточная аттестация: через месяц, порог 8 баллов</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">16.3</span>
+                        <span class="topic-text">Периодическая аттестация: знание товара</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">16.4</span>
+                        <span class="topic-text">Аттестационные билеты: 10 практических кейсов</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">16.5</span>
+                        <span class="topic-text">Влияние на мотивацию: -15% оклада при провале</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">Для старших менеджеров</div>
+
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <div class="module-number">17</div>
+                <div class="module-title">Наставничество <span class="badge">Senior</span></div>
+                <div class="module-toggle">▼</div>
+            </div>
+            <div class="module-content">
+                <div class="topics">
+                    <div class="topic">
+                        <span class="topic-number">17.1</span>
+                        <span class="topic-text">Ввод стажёра: первичное обучение, пробные чаты под контролем</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">17.2</span>
+                        <span class="topic-text">Мини-отчёты раз в 3 дня</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">17.3</span>
+                        <span class="topic-text">Проведение аттестации: вопросы, баллы, критерии</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">17.4</span>
+                        <span class="topic-text">Испытательный месяц: сопровождение, передача опыта</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">17.5</span>
+                        <span class="topic-text">Контроль качества: разбор чатов, индивидуальные планы развития</span>
+                    </div>
+                    <div class="topic">
+                        <span class="topic-number">17.6</span>
+                        <span class="topic-text">Делегирование: составление обучающих уроков, контроль дежурств</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Академия Instinto — структура модулей v1.0</p>
+            <p style="margin-top: 5px; opacity: 0.7;">Февраль 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleModule(header) {
+            const module = header.parentElement;
+            module.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
