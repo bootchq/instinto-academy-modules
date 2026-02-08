@@ -4,1347 +4,548 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Академия Instinto — Обучение</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #e8e8e8;
-            line-height: 1.7;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #e94560, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #8892b0;
-            font-size: 1.1rem;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            background: rgba(255,255,255,0.05);
-            padding: 15px 25px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #e94560;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #8892b0;
-        }
-
-        /* Navigation tabs */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-tab {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #8892b0;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .nav-tab:hover, .nav-tab.active {
-            background: rgba(233, 69, 96, 0.2);
-            border-color: #e94560;
-            color: #e94560;
-        }
-
-        /* Module cards */
-        .module {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .module:hover {
-            border-color: rgba(233, 69, 96, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .module-header {
-            background: rgba(233, 69, 96, 0.1);
-            padding: 20px 25px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .module-number {
-            background: linear-gradient(135deg, #e94560, #ff6b6b);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-
-        .module-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            flex-grow: 1;
-        }
-
-        .module-toggle {
-            color: #8892b0;
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .module.open .module-toggle {
-            transform: rotate(180deg);
-        }
-
-        .module-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-
-        .module.open .module-content {
-            max-height: 2000px;
-        }
-
-        .topics {
-            padding: 20px 25px;
-            padding-left: 85px;
-        }
-
-        .topic {
-            padding: 12px 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-radius: 6px;
-        }
-
-        .topic:hover {
-            background: rgba(233, 69, 96, 0.15);
-        }
-
-        .topic:last-child {
-            border-bottom: none;
-        }
-
-        .topic-number {
-            color: #e94560;
-            font-weight: 600;
-            flex-shrink: 0;
-            width: 50px;
-        }
-
-        .topic-text {
-            color: #ccd6f6;
-        }
-
-        .topic-details {
-            margin-top: 8px;
-            padding-left: 15px;
-            font-size: 0.9rem;
-            color: #8892b0;
-        }
-
-        .topic-details li {
-            margin-bottom: 4px;
-            list-style: none;
-            position: relative;
-            padding-left: 15px;
-        }
-
-        .topic-details li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #e94560;
-        }
-
-        .section-divider {
-            text-align: center;
-            margin: 40px 0;
-            color: #8892b0;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .section-divider::before,
-        .section-divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(233, 69, 96, 0.2);
-            color: #e94560;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            margin-left: 10px;
-            font-weight: 500;
-        }
-
-        .badge-ready {
-            background: rgba(46, 213, 115, 0.2);
-            color: #2ed573;
-        }
-
-        /* Lesson button */
-        .open-lesson-btn {
-            background: linear-gradient(135deg, #e94560, #ff6b6b);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin: 15px 25px 20px 85px;
-            transition: all 0.3s ease;
-        }
-
-        .open-lesson-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
-        }
-
-        /* Lesson content modal */
-        .lesson-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .lesson-modal.active {
-            display: block;
-        }
-
-        .lesson-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background: #1a1a2e;
-            min-height: 100%;
-        }
-
-        .lesson-close {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(233, 69, 96, 0.9);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            z-index: 1001;
-            transition: all 0.3s ease;
-        }
-
-        .lesson-close:hover {
-            transform: scale(1.1);
-            background: #e94560;
-        }
-
-        /* Lesson content styles */
-        .lesson-content h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #e94560, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .lesson-content h2 {
-            font-size: 1.5rem;
-            color: #e94560;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(233, 69, 96, 0.3);
-        }
-
-        .lesson-content h3 {
-            font-size: 1.2rem;
-            color: #ccd6f6;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-
-        .lesson-content p {
-            margin-bottom: 15px;
-            color: #a8b2d1;
-        }
-
-        .lesson-content strong {
-            color: #ccd6f6;
-        }
-
-        .lesson-content ul, .lesson-content ol {
-            margin-left: 25px;
-            margin-bottom: 15px;
-        }
-
-        .lesson-content li {
-            margin-bottom: 8px;
-            color: #a8b2d1;
-        }
-
-        .lesson-content blockquote {
-            border-left: 4px solid #e94560;
-            padding-left: 20px;
-            margin: 20px 0;
-            font-style: italic;
-            color: #8892b0;
-        }
-
-        .lesson-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: rgba(255,255,255,0.02);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .lesson-content th {
-            background: rgba(233, 69, 96, 0.2);
-            color: #e94560;
-            padding: 12px 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        .lesson-content td {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: #a8b2d1;
-        }
-
-        .lesson-content tr:last-child td {
-            border-bottom: none;
-        }
-
-        .lesson-content code {
-            background: rgba(255,255,255,0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 0.9em;
-        }
-
-        .lesson-content pre {
-            background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 20px 0;
-            border-left: 4px solid #e94560;
-        }
-
-        .lesson-content pre code {
-            background: none;
-            padding: 0;
-        }
-
-        .lesson-content hr {
-            border: none;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin: 30px 0;
-        }
-
-        /* Expandable answers */
-        .lesson-content details {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .lesson-content summary {
-            padding: 15px 20px;
-            cursor: pointer;
-            color: #e94560;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-
-        .lesson-content summary:hover {
-            background: rgba(233, 69, 96, 0.1);
-        }
-
-        .lesson-content details[open] summary {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .lesson-content details > div,
-        .lesson-content details > p {
-            padding: 15px 20px;
-        }
-
-        /* Good/bad examples */
-        .example-good {
-            background: rgba(46, 213, 115, 0.1);
-            border-left: 4px solid #2ed573;
-            padding: 15px 20px;
-            margin: 15px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .example-bad {
-            background: rgba(255, 71, 87, 0.1);
-            border-left: 4px solid #ff4757;
-            padding: 15px 20px;
-            margin: 15px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .lesson-intro {
-            background: rgba(233, 69, 96, 0.1);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-        }
-
-        .checklist {
-            background: rgba(255,255,255,0.03);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            color: #a8b2d1;
-        }
-
-        .checklist-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: #e94560;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #8892b0;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .topics {
-                padding-left: 25px;
-            }
-
-            .open-lesson-btn {
-                margin-left: 25px;
-            }
-
-            .module-header {
-                padding: 15px;
-            }
-
-            .stats {
-                gap: 15px;
-            }
-
-            .stat {
-                padding: 12px 20px;
-            }
-
-            .lesson-close {
-                top: 10px;
-                right: 10px;
-                width: 40px;
-                height: 40px;
-            }
-        }
-
-        /* Login Screen */
-        .login-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .login-screen.hidden {
-            display: none;
-        }
-
-        .login-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .login-box h2 {
-            color: #e94560;
-            margin-bottom: 10px;
-            font-size: 1.8rem;
-        }
-
-        .login-box p {
-            color: #8892b0;
-            margin-bottom: 30px;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.05);
-            color: #e8e8e8;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .login-input:focus {
-            border-color: #e94560;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #e94560, #ff6b6b);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .login-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
-        }
-
-        .login-error {
-            color: #ff4757;
-            margin-top: 15px;
-            display: none;
-        }
-
-        /* Locked module */
-        .module.locked {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .module.locked .module-header {
-            cursor: not-allowed;
-        }
-
-        .module-lock {
-            color: #8892b0;
-            font-size: 1.2rem;
-            margin-left: auto;
-        }
-
-        .module.locked .module-toggle {
-            display: none;
-        }
-
-        /* Progress badge */
-        .badge-progress {
-            background: rgba(233, 69, 96, 0.2);
-            color: #e94560;
-        }
-
-        .badge-passed {
-            background: rgba(46, 213, 115, 0.2);
-            color: #2ed573;
-        }
-
-        /* Quiz styles */
-        .quiz-container {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid rgba(233, 69, 96, 0.3);
-        }
-
-        .quiz-title {
-            font-size: 1.5rem;
-            color: #e94560;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .quiz-progress {
-            text-align: center;
-            color: #8892b0;
-            margin-bottom: 20px;
-        }
-
-        .quiz-question {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-
-        .quiz-question-text {
-            font-size: 1.1rem;
-            color: #ccd6f6;
-            margin-bottom: 20px;
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .quiz-option {
-            padding: 15px 20px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: #a8b2d1;
-        }
-
-        .quiz-option:hover {
-            background: rgba(233, 69, 96, 0.1);
-            border-color: rgba(233, 69, 96, 0.3);
-        }
-
-        .quiz-option.selected {
-            background: rgba(233, 69, 96, 0.2);
-            border-color: #e94560;
-            color: #e8e8e8;
-        }
-
-        .quiz-option.correct {
-            background: rgba(46, 213, 115, 0.2);
-            border-color: #2ed573;
-            color: #2ed573;
-        }
-
-        .quiz-option.wrong {
-            background: rgba(255, 71, 87, 0.2);
-            border-color: #ff4757;
-            color: #ff4757;
-        }
-
-        .quiz-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .quiz-btn {
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .quiz-btn-next {
-            background: linear-gradient(135deg, #e94560, #ff6b6b);
-            border: none;
-            color: white;
-        }
-
-        .quiz-btn-next:hover {
-            transform: scale(1.05);
-        }
-
-        .quiz-btn-next:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .quiz-result {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .quiz-result-score {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .quiz-result-score.pass {
-            color: #2ed573;
-        }
-
-        .quiz-result-score.fail {
-            color: #ff4757;
-        }
-
-        .quiz-result-text {
-            font-size: 1.2rem;
-            color: #8892b0;
-            margin-bottom: 30px;
-        }
-
-        /* User info */
-        .user-info {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.05);
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 100;
-        }
-
-        .user-role {
-            color: #e94560;
-            font-weight: 600;
-        }
-
-        .logout-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #8892b0;
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            border-color: #e94560;
-            color: #e94560;
-        }
-
-        /* Progress bar in header */
-        .progress-bar-container {
-            margin-top: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            height: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #e94560, #2ed573);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-text {
-            margin-top: 10px;
-            color: #8892b0;
-            font-size: 0.9rem;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles-v2.css">
 </head>
 <body>
-
     <!-- Login Screen -->
     <div class="login-screen" id="login-screen">
-        <div class="login-box">
-            <h2>Академия Instinto</h2>
-            <p>Введите пароль для входа</p>
-            <input type="password" class="login-input" id="password-input" placeholder="Пароль">
-            <button class="login-btn" onclick="login()">Войти</button>
-            <div class="login-error" id="login-error"></div>
+        <div class="login-container">
+            <div class="login-logo">
+                <div class="login-logo-icon">📚</div>
+                <div class="login-logo-text">Академия Instinto</div>
+            </div>
+            <div class="login-box">
+                <h2 class="login-title">Добро пожаловать</h2>
+                <p class="login-subtitle">Введите пароль для входа в систему обучения</p>
+                <div class="login-form">
+                    <div class="login-input-group">
+                        <input type="password" class="login-input" id="password-input" placeholder="Введите пароль" autocomplete="current-password">
+                    </div>
+                    <button class="login-btn" onclick="login()">Войти в систему</button>
+                    <div class="login-error" id="login-error">Неверный пароль</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- User Info -->
-    <div class="user-info" id="user-info" style="display: none;">
-        <span id="user-role" class="user-role"></span>
-        <button class="logout-btn" onclick="logout()">Выйти</button>
-    </div>
-
-    <div class="container" id="main-view">
-        <header>
-            <h1>Академия Instinto</h1>
-            <p class="subtitle">Программа обучения для онлайн-менеджеров</p>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">17</div>
-                    <div class="stat-label">модулей</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">94</div>
-                    <div class="stat-label">тем</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">22</div>
-                    <div class="stat-label">урока готово</div>
-                </div>
+    <!-- App Container -->
+    <div class="app-container" id="app-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo">
+                    <div class="logo-icon">📚</div>
+                    <span class="logo-text">Академия</span>
+                </a>
             </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
-            </div>
-            <div class="progress-text" id="progress-text">Пройдено 0 из 14 модулей (0%)</div>
 
-        </header>
-
-        <div class="section-divider">Базовый уровень (Неделя 1)</div>
-
-        <!-- Module 1 -->
-        <div class="module" data-module="1">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">1</div>
-                <div class="module-title">Введение в профессию и компанию <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">1.1</span>
-                        <span class="topic-text">Цели и миссия компании Instinto, позиционирование бренда</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">1.2</span>
-                        <span class="topic-text">Роль онлайн-консультанта: задачи, зона ответственности</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">1.3</span>
-                        <span class="topic-text">Преимущества и ограничения онлайн-формата</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">1.4</span>
-                        <span class="topic-text">Типичные ошибки новичков: споры, многословие, навязывание</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">1.5</span>
-                        <span class="topic-text">Организация рабочего дня: фото рабочего дня, дежурства</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">1.6</span>
-                        <span class="topic-text">Правила компании: опоздания, выходные, ОС с руководителем</span>
+            <!-- User Widget -->
+            <div class="user-widget">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">У</div>
+                    <div class="user-details">
+                        <div class="user-name" id="user-name">Ученик</div>
+                        <div class="user-role" id="user-role-text">Стажёр</div>
                     </div>
                 </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson1')">Открыть урок</button>
-            </div>
-        </div>
-
-        <!-- Module 2 -->
-        <div class="module" data-module="2">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">2</div>
-                <div class="module-title">Этапы продаж в онлайн-формате</div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic" onclick="openLesson('lesson2', 'etap1')">
-                        <span class="topic-number">2.1</span>
-                        <span class="topic-text">Приветствие и установление контакта</span>
+                <div class="progress-ring-container">
+                    <div class="progress-ring">
+                        <svg width="60" height="60">
+                            <defs>
+                                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#e94560"/>
+                                    <stop offset="100%" stop-color="#00d9a5"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="progress-ring-bg" cx="30" cy="30" r="25"/>
+                            <circle class="progress-ring-fill" id="progress-ring" cx="30" cy="30" r="25"/>
+                        </svg>
+                        <span class="progress-ring-text" id="progress-percent">0%</span>
                     </div>
-                    <div class="topic" onclick="openLesson('lesson2', 'etap2')">
-                        <span class="topic-number">2.2</span>
-                        <span class="topic-text">Выявление потребностей: открытые вопросы, портрет клиента</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson2', 'etap3')">
-                        <span class="topic-number">2.3</span>
-                        <span class="topic-text">Презентация товара: 2-3 варианта, схема "Купил-использовал-испытал"</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson2', 'etap6')">
-                        <span class="topic-number">2.4</span>
-                        <span class="topic-text">Допродажи: сопутствующие товары, апсейл, "плюшки"</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson2', 'etap4')">
-                        <span class="topic-number">2.5</span>
-                        <span class="topic-text">Работа с возражениями: истинные, ложные, условно-объективные</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson2', 'etap5')">
-                        <span class="topic-number">2.6</span>
-                        <span class="topic-text">Завершение сделки: фиксация товара, запрос данных, подтверждение оплаты</span>
+                    <div class="progress-details">
+                        <div class="progress-label">Прогресс обучения</div>
+                        <div class="progress-stats" id="progress-stats">0 из 14 модулей</div>
                     </div>
                 </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson2')">Открыть урок</button>
             </div>
-        </div>
 
-        <!-- Module 3 -->
-        <div class="module" data-module="3">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">3</div>
-                <div class="module-title">Психология продаж и триггеры</div>
-                <div class="module-toggle">▼</div>
+            <!-- Navigation -->
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <!-- Will be populated by JS -->
+            </nav>
+
+            <!-- Footer -->
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <span>🚪</span>
+                    <span>Выйти</span>
+                </button>
             </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic" onclick="openLesson('lesson3', 'trigger1')">
-                        <span class="topic-number">3.1</span>
-                        <span class="topic-text">Триггер доверия: отзывы, рекомендации, личный опыт</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson3', 'trigger2')">
-                        <span class="topic-number">3.2</span>
-                        <span class="topic-text">Триггер безопасности: состав, сертификаты, безопасная доставка</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson3', 'trigger3')">
-                        <span class="topic-number">3.3</span>
-                        <span class="topic-text">Триггер ограниченности: время акции, остатки, дедлайны</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson3', 'trigger4')">
-                        <span class="topic-number">3.4</span>
-                        <span class="topic-text">Триггер эмоций: истории, ДО/ПОСЛЕ, картина будущего</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson3', 'trigger5')">
-                        <span class="topic-number">3.5</span>
-                        <span class="topic-text">Триггер халявы: бонусы, карты, бесплатная доставка</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson3', 'trigger6')">
-                        <span class="topic-number">3.6</span>
-                        <span class="topic-text">Триггер переноса ответственности: "доверьтесь моему опыту"</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson3', 'trigger7')">
-                        <span class="topic-number">3.7</span>
-                        <span class="topic-text">Триггер эксклюзивности: ограниченные партии, индивидуальный пошив</span>
-                    </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Программа обучения</h1>
+                <p class="page-subtitle">Онлайн-курс для менеджеров по продажам INSTINTO</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon modules">📚</div>
+                    <div class="stat-value">14</div>
+                    <div class="stat-label">Модулей</div>
                 </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson3')">Открыть урок</button>
-            </div>
-        </div>
-
-        <!-- Module 4 -->
-        <div class="module" data-module="4">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">4</div>
-                <div class="module-title">Знание продукта и товарные связки <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">4.1</span>
-                        <span class="topic-text">Категории ассортимента: интимная косметика, белье, аксессуары, уход</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">4.2</span>
-                        <span class="topic-text">ТОП-товары месяца: что продаётся лучше всего</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">4.3</span>
-                        <span class="topic-text">Товарные связки: что с чем предлагать</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">4.4</span>
-                        <span class="topic-text">Как описывать товар "вкусно": ассоциации, эпитеты</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">4.5</span>
-                        <span class="topic-text">Затест товаров: пробы, примерки для лучшей презентации</span>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-icon completed">✓</div>
+                    <div class="stat-value" id="stat-completed">0</div>
+                    <div class="stat-label">Пройдено</div>
                 </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson4')">Открыть урок</button>
-            </div>
-        </div>
-
-        <!-- Module 5 -->
-        <div class="module" data-module="5">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">5</div>
-                <div class="module-title">Скрипты продаж по категориям <span class="badge">Практика</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic" onclick="openLesson('lesson5', 'script1')">
-                        <span class="topic-number">5.1</span>
-                        <span class="topic-text">Скрипт: Нижнее бельё (подарок мужу)</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson5', 'script2')">
-                        <span class="topic-number">5.2</span>
-                        <span class="topic-text">Скрипт: Эротическое бельё (сюрприз для мужа)</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson5', 'script3')">
-                        <span class="topic-number">5.3</span>
-                        <span class="topic-text">Скрипт: Интимная косметика (смазка)</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson5', 'script4')">
-                        <span class="topic-number">5.4</span>
-                        <span class="topic-text">Скрипт: Возбуждающие средства</span>
-                    </div>
-                    <div class="topic" onclick="openLesson('lesson5', 'script5')">
-                        <span class="topic-number">5.5</span>
-                        <span class="topic-text">Скрипт: Пижамы (собственное производство)</span>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-icon time">⏱</div>
+                    <div class="stat-value">~8ч</div>
+                    <div class="stat-label">На обучение</div>
                 </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson5')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="section-divider">Технический уровень (Неделя 2)</div>
-
-        <!-- Module 6 -->
-        <div class="module" data-module="6">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">6</div>
-                <div class="module-title">Работа в CRM и 1С <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">6.1</span>
-                        <span class="topic-text">Интерфейс CRM: чаты, фильтры, статусы, назначение</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">6.2</span>
-                        <span class="topic-text">Карточка клиента: ФИО, телефон, адрес, история, заметки</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">6.3</span>
-                        <span class="topic-text">Оформление заказа: корзина, скидки, промокоды, доставка</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">6.4</span>
-                        <span class="topic-text">Проверка оплаты и статусы: ЧАТ → КОМПЛЕКТУЕТСЯ → отправлен</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">6.5</span>
-                        <span class="topic-text">Работа в 1С: сверка карт, контроль отгрузки</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">6.6</span>
-                        <span class="topic-text">Работа с заказами сайта: неоплаченные корзины</span>
-                    </div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson6')">Открыть урок</button>
-            </div>
-        </div>
-
-        <!-- Module 7 -->
-        <div class="module" data-module="7">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">7</div>
-                <div class="module-title">Система тегов и касаний <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic">
-                        <span class="topic-number">7.1</span>
-                        <span class="topic-text">Маячки: как напоминать без навязывания (максимум 2 касания)</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">7.2</span>
-                        <span class="topic-text">Шаблоны касаний: первое и второе касание</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">7.3</span>
-                        <span class="topic-text">Система тегов: VIP, %, блогер, ждёт товар, проблема, бонус</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">7.4</span>
-                        <span class="topic-text">Сортировка по тегам: ежедневно, раз в 3 дня, раз в неделю</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">7.5</span>
-                        <span class="topic-text">Работа с брошенными корзинами: перевод в WhatsApp</span>
-                    </div>
-                    <div class="topic">
-                        <span class="topic-number">7.6</span>
-                        <span class="topic-text">Работа с "уснувшими" клиентами: периодичность касаний</span>
-                    </div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson7')">Открыть урок</button>
-            </div>
-        </div>
-
-        <!-- Modules 8-17 abbreviated -->
-        <div class="module" data-module="8">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">8</div>
-                <div class="module-title">VIP-клиенты и ключевые клиенты <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">8.1</span><span class="topic-text">Кто такой VIP: скидка 15%, метки, портрет в заметках</span></div>
-                    <div class="topic"><span class="topic-number">8.2</span><span class="topic-text">Сопровождение на всех этапах: персонализация</span></div>
-                    <div class="topic"><span class="topic-number">8.3</span><span class="topic-text">Сопровождение после отправки: сценарии, гайды</span></div>
-                    <div class="topic"><span class="topic-number">8.4</span><span class="topic-text">Контроль получения: мониторинг треков, ОС после доставки</span></div>
-                    <div class="topic"><span class="topic-number">8.5</span><span class="topic-text">Периодическая связь: акции, новинки, без навязывания</span></div>
-                    <div class="topic"><span class="topic-number">8.6</span><span class="topic-text">Ведение таблицы VIP-клиентов</span></div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson8')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="module" data-module="9">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">9</div>
-                <div class="module-title">Ведение клиента после продажи <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">9.1</span><span class="topic-text">После отправки: гайды, сценарии использования, уход</span></div>
-                    <div class="topic"><span class="topic-number">9.2</span><span class="topic-text">После получения: запрос отзыва, проверка качества</span></div>
-                    <div class="topic"><span class="topic-number">9.3</span><span class="topic-text">Повторные продажи: когда и что предлагать</span></div>
-                    <div class="topic"><span class="topic-number">9.4</span><span class="topic-text">Поздравления с ДР, персональные акции, инфоповоды</span></div>
-                    <div class="topic"><span class="topic-number">9.5</span><span class="topic-text">Контроль отгрузки: проверка открытых заказов, брони</span></div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson9')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="module" data-module="10">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">10</div>
-                <div class="module-title">Проблемные ситуации и возвраты <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">10.1</span><span class="topic-text">Наша ошибка: не тот товар, размер, цвет — извинения и решение</span></div>
-                    <div class="topic"><span class="topic-number">10.2</span><span class="topic-text">Брак: возврат, замена, компенсация</span></div>
-                    <div class="topic"><span class="topic-number">10.3</span><span class="topic-text">Не подошёл размер (без нашей вины): обмен за счёт клиента</span></div>
-                    <div class="topic"><span class="topic-number">10.4</span><span class="topic-text">Субъективные претензии: "не понравился" — что можем</span></div>
-                    <div class="topic"><span class="topic-number">10.5</span><span class="topic-text">Конфликтные клиенты: когда передать, теги "проблемный"</span></div>
-                    <div class="topic"><span class="topic-number">10.6</span><span class="topic-text">Связь с почтой по проблемным посылкам</span></div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson10')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="section-divider">Продвинутый уровень (Неделя 3)</div>
-
-        <div class="module" data-module="11">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">11</div>
-                <div class="module-title">Мультиканальность <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">11.1</span><span class="topic-text">Работа с сайтом: заказы, брошенные корзины</span></div>
-                    <div class="topic"><span class="topic-number">11.2</span><span class="topic-text">Telegram-канал: обработка чатов, касания, оформление</span></div>
-                    <div class="topic"><span class="topic-number">11.3</span><span class="topic-text">MomLife и другие площадки</span></div>
-                    <div class="topic"><span class="topic-number">11.4</span><span class="topic-text">Перевод клиента между каналами: Instagram → WhatsApp</span></div>
-                    <div class="topic"><span class="topic-number">11.5</span><span class="topic-text">Просмотр ссылок с телефона (сторис, рилсы)</span></div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson11')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="module" data-module="12">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">12</div>
-                <div class="module-title">Контент и рекламные интеграции <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">12.1</span><span class="topic-text">Контроль комментариев: ответ в течение 2 часов</span></div>
-                    <div class="topic"><span class="topic-number">12.2</span><span class="topic-text">Негатив в комментариях: скрин → удаление → эскалация</span></div>
-                    <div class="topic"><span class="topic-number">12.3</span><span class="topic-text">Осведомлённость о постах и сторис</span></div>
-                    <div class="topic"><span class="topic-number">12.4</span><span class="topic-text">Рекламные интеграции: таблица блогеров, даты выхода</span></div>
-                    <div class="topic"><span class="topic-number">12.5</span><span class="topic-text">Воронки продаж: понимание пути клиента</span></div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson12')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="section-divider">Управление и KPI</div>
-
-        <div class="module" data-module="13">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">13</div>
-                <div class="module-title">KPI и система мотивации <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">13.1</span><span class="topic-text">Личный план: как формируется, органический прирост</span></div>
-                    <div class="topic"><span class="topic-number">13.2</span><span class="topic-text">Средний чек: норма, бонус +2000 за выполнение</span></div>
-                    <div class="topic"><span class="topic-number">13.3</span><span class="topic-text">Количество строк в заказе: глубина чека</span></div>
-                    <div class="topic"><span class="topic-number">13.4</span><span class="topic-text">Крупные сделки (от 60 000): сверхбонус</span></div>
-                    <div class="topic"><span class="topic-number">13.5</span><span class="topic-text">Скорость ответа: 5-7 мин первичный, 10-15 в диалоге</span></div>
-                    <div class="topic"><span class="topic-number">13.6</span><span class="topic-text">Критерии оценки чатов: чеклист из 12 пунктов</span></div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson13')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="module" data-module="14">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">14</div>
-                <div class="module-title">Штрафы и правила <span class="badge badge-ready">Урок готов</span></div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">14.1</span><span class="topic-text">Опоздания: фото ПК, 2 опоздания без штрафа, далее 1000+</span></div>
-                    <div class="topic"><span class="topic-number">14.2</span><span class="topic-text">Вечерние дежурства: до 23:00, подмена, реклама</span></div>
-                    <div class="topic"><span class="topic-number">14.3</span><span class="topic-text">Ошибки в заказах: забыли подарок/товар, ошибка в адресе</span></div>
-                    <div class="topic"><span class="topic-number">14.4</span><span class="topic-text">Невыполнение регламентов: штрафы 1000-5000</span></div>
-                    <div class="topic"><span class="topic-number">14.5</span><span class="topic-text">Сверки карт с казначейством</span></div>
-                    <div class="topic"><span class="topic-number">14.6</span><span class="topic-text">ОС с руководителем: своевременное предоставление</span></div>
-                </div>
-                <button class="open-lesson-btn" onclick="openLesson('lesson14')">Открыть урок</button>
-            </div>
-        </div>
-
-        <div class="module" data-module="15">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">15</div>
-                <div class="module-title">Коммуникация внутри команды</div>
-                <div class="module-toggle">▼</div>
-            </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">15.1</span><span class="topic-text">Взаимодействие с администратором, закупщиком, контент-менеджером</span></div>
-                    <div class="topic"><span class="topic-number">15.2</span><span class="topic-text">Передача чата коллеге: когда и как</span></div>
-                    <div class="topic"><span class="topic-number">15.3</span><span class="topic-text">Обратная связь о популярных товарах и запросах</span></div>
-                    <div class="topic"><span class="topic-number">15.4</span><span class="topic-text">Рабочие группы в Telegram: мини-отчёты, эскалации</span></div>
+                <div class="stat-card">
+                    <div class="stat-icon score">🎯</div>
+                    <div class="stat-value" id="stat-score">—</div>
+                    <div class="stat-label">Средний балл</div>
                 </div>
             </div>
-        </div>
 
-        <div class="module" data-module="16">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">16</div>
-                <div class="module-title">Аттестация <span class="badge">Экзамен</span></div>
-                <div class="module-toggle">▼</div>
+            <!-- Modules Grid -->
+            <div class="section-header">
+                <h2 class="section-title">Базовый уровень</h2>
+                <div class="section-line"></div>
             </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">16.1</span><span class="topic-text">Первичная аттестация: через 2 недели стажировки, порог 7 баллов</span></div>
-                    <div class="topic"><span class="topic-number">16.2</span><span class="topic-text">Промежуточная аттестация: через месяц, порог 8 баллов</span></div>
-                    <div class="topic"><span class="topic-number">16.3</span><span class="topic-text">Периодическая аттестация: знание товара</span></div>
-                    <div class="topic"><span class="topic-number">16.4</span><span class="topic-text">Аттестационные билеты: 10 практических кейсов</span></div>
-                    <div class="topic"><span class="topic-number">16.5</span><span class="topic-text">Влияние на мотивацию: -15% оклада при провале</span></div>
-                </div>
-            </div>
-        </div>
 
-        <div class="section-divider">Для старших менеджеров</div>
-
-        <div class="module" data-module="17">
-            <div class="module-header" onclick="toggleModule(this)">
-                <div class="module-number">17</div>
-                <div class="module-title">Наставничество <span class="badge">Senior</span></div>
-                <div class="module-toggle">▼</div>
+            <div class="modules-grid" id="modules-grid">
+                <!-- Will be populated by JS -->
             </div>
-            <div class="module-content">
-                <div class="topics">
-                    <div class="topic"><span class="topic-number">17.1</span><span class="topic-text">Ввод стажёра: первичное обучение, пробные чаты под контролем</span></div>
-                    <div class="topic"><span class="topic-number">17.2</span><span class="topic-text">Мини-отчёты раз в 3 дня</span></div>
-                    <div class="topic"><span class="topic-number">17.3</span><span class="topic-text">Проведение аттестации: вопросы, баллы, критерии</span></div>
-                    <div class="topic"><span class="topic-number">17.4</span><span class="topic-text">Испытательный месяц: сопровождение, передача опыта</span></div>
-                    <div class="topic"><span class="topic-number">17.5</span><span class="topic-text">Контроль качества: разбор чатов, индивидуальные планы</span></div>
-                    <div class="topic"><span class="topic-number">17.6</span><span class="topic-text">Делегирование: составление обучающих уроков, контроль дежурств</span></div>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <p>Академия Instinto v3.0</p>
-            <p style="margin-top: 5px; opacity: 0.7;">Февраль 2026</p>
-        </footer>
+        </main>
     </div>
 
     <!-- Lesson Modal -->
-    <div class="lesson-modal" id="lessonModal">
-        <button class="lesson-close" onclick="closeLesson()">&times;</button>
+    <div class="lesson-modal" id="lesson-modal">
+        <header class="lesson-header">
+            <div class="lesson-nav">
+                <button class="lesson-back-btn" onclick="closeLesson()">
+                    <span>←</span>
+                    <span>К модулям</span>
+                </button>
+                <span class="lesson-title-header" id="lesson-title-header"></span>
+            </div>
+            <div class="lesson-actions">
+                <div class="lesson-progress-indicator" id="lesson-progress-indicator">
+                    Модуль 1 из 14
+                </div>
+            </div>
+        </header>
         <div class="lesson-container">
-            <div class="lesson-content" id="lessonContent"></div>
+            <div class="lesson-content" id="lesson-content"></div>
         </div>
     </div>
 
+    <script src="quizzes.js"></script>
+    <script>
+        // ===== CONFIG =====
+        const ADMIN_PASSWORD = 'instinto2026';
+        const STUDENT_PASSWORD = 'student2026';
+
+        const MODULES = [
+            { id: 1, title: 'О компании и основы продаж', topics: ['Миссия компании', 'Роль консультанта', 'Основы продаж'], time: '30 мин' },
+            { id: 2, title: 'Этапы продаж', topics: ['6 этапов', 'Техника СПИР', 'Допродажи'], time: '45 мин' },
+            { id: 3, title: 'Триггеры продаж', topics: ['Психология покупки', 'Виды триггеров', 'Применение'], time: '35 мин' },
+            { id: 4, title: 'Ассортимент', topics: ['Категории товаров', 'Подбор размера', 'Материалы'], time: '40 мин' },
+            { id: 5, title: 'Tone of Voice', topics: ['Стиль общения', 'Правила переписки', 'Примеры'], time: '25 мин' },
+            { id: 6, title: 'CRM и 1С', topics: ['Работа с CRM', 'Создание заказов', 'Теги клиентов'], time: '35 мин' },
+            { id: 7, title: 'Практикум переписки', topics: ['Кейсы', 'Разбор ошибок', 'Лучшие практики'], time: '45 мин' },
+            { id: 8, title: 'Оплата и доставка', topics: ['Способы оплаты', 'Логистика', 'Трекинг'], time: '30 мин' },
+            { id: 9, title: 'После продажи', topics: ['Обратная связь', 'Работа с отзывами', 'Повторные продажи'], time: '25 мин' },
+            { id: 10, title: 'Проблемные ситуации', topics: ['Типы клиентов', 'Работа с жалобами', 'Эскалация'], time: '40 мин' },
+            { id: 11, title: 'Мультиканальность', topics: ['Каналы продаж', 'Интеграция', 'Омниканальность'], time: '30 мин' },
+            { id: 12, title: 'Контент и интеграции', topics: ['Работа с контентом', 'Блогеры', 'Воронки'], time: '25 мин' },
+            { id: 13, title: 'KPI и мотивация', topics: ['Метрики', 'Бонусы', 'План продаж'], time: '35 мин' },
+            { id: 14, title: 'Штрафы и правила', topics: ['Регламенты', 'Дежурства', 'Отчётность'], time: '30 мин' },
+        ];
+
+        // ===== STATE =====
+        let currentUser = null;
+        let progress = {};
+        let currentLesson = null;
+
+        // ===== INIT =====
+        function initApp() {
+            const savedProgress = localStorage.getItem('academyProgress');
+            if (savedProgress) {
+                progress = JSON.parse(savedProgress);
+            }
+
+            const savedUser = localStorage.getItem('academyUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showApp();
+            } else {
+                showLogin();
+            }
+        }
+
+        // ===== AUTH =====
+        function showLogin() {
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('app-container').style.display = 'none';
+        }
+
+        function showApp() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-container').style.display = 'flex';
+            updateUserInfo();
+            renderSidebar();
+            renderModules();
+            updateStats();
+        }
+
+        function login() {
+            const password = document.getElementById('password-input').value;
+            const errorEl = document.getElementById('login-error');
+
+            if (password === ADMIN_PASSWORD) {
+                currentUser = { role: 'admin', name: 'Администратор' };
+                localStorage.setItem('academyUser', JSON.stringify(currentUser));
+                showApp();
+            } else if (password === STUDENT_PASSWORD) {
+                currentUser = { role: 'student', name: 'Ученик' };
+                localStorage.setItem('academyUser', JSON.stringify(currentUser));
+                showApp();
+            } else {
+                errorEl.classList.add('show');
+                setTimeout(() => errorEl.classList.remove('show'), 3000);
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('academyUser');
+            showLogin();
+        }
+
+        // ===== UI UPDATES =====
+        function updateUserInfo() {
+            const isAdmin = currentUser?.role === 'admin';
+            document.getElementById('user-name').textContent = currentUser?.name || 'Ученик';
+            document.getElementById('user-role-text').textContent = isAdmin ? 'Администратор' : 'Стажёр';
+            document.getElementById('user-avatar').textContent = isAdmin ? 'А' : 'У';
+        }
+
+        function updateStats() {
+            let completed = 0;
+            let totalScore = 0;
+            let scoreCount = 0;
+
+            for (let i = 1; i <= 14; i++) {
+                if (progress[i]?.passed) {
+                    completed++;
+                    if (progress[i].score) {
+                        totalScore += progress[i].score;
+                        scoreCount++;
+                    }
+                }
+            }
+
+            const percent = Math.round((completed / 14) * 100);
+
+            // Update stats cards
+            document.getElementById('stat-completed').textContent = completed;
+            document.getElementById('stat-score').textContent = scoreCount > 0 ? (totalScore / scoreCount).toFixed(1) : '—';
+
+            // Update progress ring
+            const ring = document.getElementById('progress-ring');
+            const circumference = 2 * Math.PI * 25;
+            const offset = circumference - (percent / 100) * circumference;
+            ring.style.strokeDashoffset = offset;
+
+            document.getElementById('progress-percent').textContent = percent + '%';
+            document.getElementById('progress-stats').textContent = `${completed} из 14 модулей`;
+        }
+
+        function isUnlocked(moduleId) {
+            if (currentUser?.role === 'admin') return true;
+            if (moduleId === 1) return true;
+            return progress[moduleId - 1]?.passed;
+        }
+
+        function isPassed(moduleId) {
+            return progress[moduleId]?.passed;
+        }
+
+        // ===== RENDER =====
+        function renderSidebar() {
+            const nav = document.getElementById('sidebar-nav');
+            let html = '<div class="nav-section"><div class="nav-section-title">Модули обучения</div>';
+
+            MODULES.forEach(m => {
+                const unlocked = isUnlocked(m.id);
+                const passed = isPassed(m.id);
+                let statusClass = '';
+                let badge = '';
+
+                if (passed) {
+                    statusClass = 'completed';
+                    badge = '<span class="nav-item-badge">✓</span>';
+                } else if (!unlocked) {
+                    statusClass = 'locked';
+                    badge = '<span class="nav-item-badge">🔒</span>';
+                }
+
+                html += `
+                    <div class="nav-item ${statusClass}" onclick="${unlocked ? `openLesson(${m.id})` : ''}">
+                        <div class="nav-item-icon">${m.id}</div>
+                        <div class="nav-item-content">
+                            <div class="nav-item-title">${m.title}</div>
+                            <div class="nav-item-status">${m.time}</div>
+                        </div>
+                        ${badge}
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            nav.innerHTML = html;
+        }
+
+        function renderModules() {
+            const grid = document.getElementById('modules-grid');
+            let html = '';
+
+            MODULES.forEach(m => {
+                const unlocked = isUnlocked(m.id);
+                const passed = isPassed(m.id);
+                let cardClass = '';
+                let btnText = 'Начать';
+
+                if (passed) {
+                    cardClass = 'completed';
+                    btnText = 'Повторить';
+                } else if (!unlocked) {
+                    cardClass = 'locked';
+                    btnText = '🔒 Заблокировано';
+                }
+
+                const topicsHtml = m.topics.slice(0, 3).map(t => `<li class="module-topic">${t}</li>`).join('');
+
+                html += `
+                    <div class="module-card ${cardClass}" onclick="${unlocked ? `openLesson(${m.id})` : ''}" data-module="${m.id}">
+                        <div class="module-card-header">
+                            <div class="module-number">${passed ? '✓' : m.id}</div>
+                            <div class="module-info">
+                                <div class="module-title">${m.title}</div>
+                                <div class="module-meta">
+                                    <span class="module-meta-item">⏱ ${m.time}</span>
+                                    <span class="module-meta-item">📝 10 вопросов</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="module-card-body">
+                            <ul class="module-topics">${topicsHtml}</ul>
+                        </div>
+                        <div class="module-card-footer">
+                            <div class="module-progress">
+                                <div class="module-progress-bar">
+                                    <div class="module-progress-fill" style="width: ${passed ? '100' : '0'}%"></div>
+                                </div>
+                                <span class="module-progress-text">${passed ? '100%' : '0%'}</span>
+                            </div>
+                            <button class="module-btn">${btnText}</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // ===== LESSONS =====
+        function openLesson(moduleId) {
+            if (!isUnlocked(moduleId)) return;
+
+            currentLesson = moduleId;
+            const modal = document.getElementById('lesson-modal');
+            const content = document.getElementById('lesson-content');
+            const titleHeader = document.getElementById('lesson-title-header');
+            const progressIndicator = document.getElementById('lesson-progress-indicator');
+
+            const module = MODULES.find(m => m.id === moduleId);
+            titleHeader.textContent = module.title;
+            progressIndicator.textContent = `Модуль ${moduleId} из 14`;
+
+            // Get lesson content
+            let lessonHtml = lessons['lesson' + moduleId] || '<p>Урок ещё не готов</p>';
+
+            // Add quiz button
+            if (quizzes[moduleId]) {
+                lessonHtml += `
+                    <div class="quiz-container">
+                        <div class="quiz-header">
+                            <h2 class="quiz-title">📝 Тест по модулю</h2>
+                            <p class="quiz-subtitle">Ответьте на 10 вопросов. Для прохождения нужно минимум 7 правильных ответов.</p>
+                        </div>
+                        <div style="text-align: center; margin-top: 32px;">
+                            <button class="module-btn quiz-result-btn" onclick="startQuiz(${moduleId})">
+                                ${isPassed(moduleId) ? '🔄 Пройти тест снова' : '🚀 Начать тест'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = lessonHtml;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            content.scrollTop = 0;
+        }
+
+        function closeLesson() {
+            document.getElementById('lesson-modal').classList.remove('active');
+            document.body.style.overflow = '';
+            currentLesson = null;
+        }
+
+        // ===== QUIZ =====
+        let quizState = null;
+
+        function startQuiz(moduleId) {
+            quizState = {
+                moduleId,
+                quiz: quizzes[moduleId],
+                currentQuestion: 0,
+                answers: new Array(quizzes[moduleId].questions.length).fill(null)
+            };
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const content = document.getElementById('lesson-content');
+            const { quiz, currentQuestion, answers } = quizState;
+            const q = quiz.questions[currentQuestion];
+            const progressPercent = ((currentQuestion + 1) / quiz.questions.length) * 100;
+
+            const optionsHtml = q.options.map((opt, i) => `
+                <div class="quiz-option ${answers[currentQuestion] === i ? 'selected' : ''}" onclick="selectQuizAnswer(${i})">
+                    <div class="quiz-option-letter">${String.fromCharCode(65 + i)}</div>
+                    <div class="quiz-option-text">${opt}</div>
+                </div>
+            `).join('');
+
+            content.innerHTML = `
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <h2 class="quiz-title">${quiz.title}</h2>
+                        <div class="quiz-progress-bar">
+                            <div class="quiz-progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <div class="quiz-question-number">Вопрос ${currentQuestion + 1} из ${quiz.questions.length}</div>
+                        <div class="quiz-question-text">${q.q}</div>
+                        <div class="quiz-options">${optionsHtml}</div>
+                    </div>
+
+                    <div class="quiz-nav">
+                        <button class="quiz-btn quiz-btn-secondary" onclick="${currentQuestion > 0 ? 'prevQuizQuestion()' : 'closeQuiz()'}" >
+                            ${currentQuestion > 0 ? '← Назад' : '✕ Отмена'}
+                        </button>
+                        <button class="quiz-btn quiz-btn-primary" onclick="nextQuizQuestion()" ${answers[currentQuestion] === null ? 'disabled' : ''}>
+                            ${currentQuestion === quiz.questions.length - 1 ? 'Завершить тест' : 'Далее →'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectQuizAnswer(index) {
+            quizState.answers[quizState.currentQuestion] = index;
+            renderQuizQuestion();
+        }
+
+        function prevQuizQuestion() {
+            if (quizState.currentQuestion > 0) {
+                quizState.currentQuestion--;
+                renderQuizQuestion();
+            }
+        }
+
+        function nextQuizQuestion() {
+            if (quizState.answers[quizState.currentQuestion] === null) return;
+
+            if (quizState.currentQuestion < quizState.quiz.questions.length - 1) {
+                quizState.currentQuestion++;
+                renderQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function closeQuiz() {
+            openLesson(quizState.moduleId);
+        }
+
+        function showQuizResult() {
+            const { quiz, answers, moduleId } = quizState;
+            let correct = 0;
+
+            quiz.questions.forEach((q, i) => {
+                if (answers[i] === q.correct) correct++;
+            });
+
+            const passed = correct >= 7;
+
+            if (passed) {
+                progress[moduleId] = { passed: true, score: correct, date: new Date().toISOString() };
+                localStorage.setItem('academyProgress', JSON.stringify(progress));
+                renderSidebar();
+                renderModules();
+                updateStats();
+            }
+
+            const content = document.getElementById('lesson-content');
+            content.innerHTML = `
+                <div class="quiz-result">
+                    <div class="quiz-result-icon">${passed ? '🎉' : '😕'}</div>
+                    <div class="quiz-result-score ${passed ? 'pass' : 'fail'}">${correct}/10</div>
+                    <div class="quiz-result-text">
+                        ${passed
+                            ? 'Отлично! Тест пройден успешно. Следующий модуль разблокирован!'
+                            : 'Не хватило баллов. Нужно минимум 7 из 10. Перечитайте материал и попробуйте снова.'}
+                    </div>
+                    <button class="module-btn quiz-result-btn" onclick="${passed ? 'closeLesson()' : `openLesson(${moduleId})`}">
+                        ${passed ? '← Вернуться к модулям' : '📖 Вернуться к уроку'}
+                    </button>
+                </div>
+            `;
+        }
+
+        // ===== EVENTS =====
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (document.getElementById('lesson-modal').classList.contains('active')) {
+                    closeLesson();
+                }
+            }
+            if (e.key === 'Enter' && document.getElementById('password-input') === document.activeElement) {
+                login();
+            }
+        });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+
+    <!-- Lesson content will be loaded from the original file -->
     <script>
         const lessons = {
             lesson1: `<h1>Модуль 1: О компании и основы продаж</h1>
@@ -5724,304 +4925,5 @@ VIP. Постоянный клиент с 2022.
 <hr>`
         };
     </script>
-
-    <script src="quizzes.js"></script>
-    <script>
-        // ===== AUTH =====
-        const ADMIN_PASSWORD = 'instinto2026';
-        const STUDENT_PASSWORD = 'student2026';
-
-        let currentUser = null;
-        let progress = {};
-
-        function initApp() {
-            // Загружаем прогресс из localStorage
-            const savedProgress = localStorage.getItem('academyProgress');
-            if (savedProgress) {
-                progress = JSON.parse(savedProgress);
-            }
-
-            // Проверяем авторизацию
-            const savedUser = localStorage.getItem('academyUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showMainView();
-            } else {
-                showLoginScreen();
-            }
-        }
-
-        function showLoginScreen() {
-            document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('main-view').style.display = 'none';
-        }
-
-        function showMainView() {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('main-view').style.display = 'block';
-            document.getElementById('user-info').style.display = 'flex';
-            document.getElementById('user-role').textContent = currentUser.role === 'admin' ? 'Администратор' : 'Ученик';
-
-            updateModulesAccess();
-            updateProgressBar();
-        }
-
-        function login() {
-            const password = document.getElementById('password-input').value;
-            const errorEl = document.getElementById('login-error');
-
-            if (password === ADMIN_PASSWORD) {
-                currentUser = { role: 'admin' };
-                localStorage.setItem('academyUser', JSON.stringify(currentUser));
-                showMainView();
-            } else if (password === STUDENT_PASSWORD) {
-                currentUser = { role: 'student' };
-                localStorage.setItem('academyUser', JSON.stringify(currentUser));
-                showMainView();
-            } else {
-                errorEl.style.display = 'block';
-                errorEl.textContent = 'Неверный пароль';
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('academyUser');
-            document.getElementById('user-info').style.display = 'none';
-            showLoginScreen();
-        }
-
-        // ===== PROGRESS =====
-        function saveProgress() {
-            localStorage.setItem('academyProgress', JSON.stringify(progress));
-        }
-
-        function isModuleUnlocked(moduleNum) {
-            if (currentUser && currentUser.role === 'admin') return true;
-            if (moduleNum === 1) return true;
-            return progress[moduleNum - 1] && progress[moduleNum - 1].passed;
-        }
-
-        function isModulePassed(moduleNum) {
-            return progress[moduleNum] && progress[moduleNum].passed;
-        }
-
-        function updateModulesAccess() {
-            const modules = document.querySelectorAll('.module[data-module]');
-            modules.forEach(module => {
-                const moduleNum = parseInt(module.dataset.module);
-                const isUnlocked = isModuleUnlocked(moduleNum);
-                const isPassed = isModulePassed(moduleNum);
-
-                if (isUnlocked) {
-                    module.classList.remove('locked');
-                    const lockIcon = module.querySelector('.module-lock');
-                    if (lockIcon) lockIcon.remove();
-                } else {
-                    module.classList.add('locked');
-                    if (!module.querySelector('.module-lock')) {
-                        const header = module.querySelector('.module-header');
-                        const lock = document.createElement('div');
-                        lock.className = 'module-lock';
-                        lock.textContent = '🔒';
-                        header.appendChild(lock);
-                    }
-                }
-
-                // Обновляем бейдж
-                const title = module.querySelector('.module-title');
-                let badge = title.querySelector('.badge-progress, .badge-passed');
-                if (badge) badge.remove();
-
-                if (isPassed) {
-                    const newBadge = document.createElement('span');
-                    newBadge.className = 'badge badge-passed';
-                    newBadge.textContent = '✓ Пройден';
-                    title.appendChild(newBadge);
-                } else if (isUnlocked && moduleNum > 1) {
-                    const newBadge = document.createElement('span');
-                    newBadge.className = 'badge badge-progress';
-                    newBadge.textContent = 'Доступен';
-                    title.appendChild(newBadge);
-                }
-            });
-        }
-
-        function updateProgressBar() {
-            const totalModules = 14; // Модули с тестами
-            let passedCount = 0;
-            for (let i = 1; i <= totalModules; i++) {
-                if (isModulePassed(i)) passedCount++;
-            }
-
-            const percent = Math.round((passedCount / totalModules) * 100);
-            const bar = document.getElementById('progress-bar');
-            const text = document.getElementById('progress-text');
-
-            if (bar) bar.style.width = percent + '%';
-            if (text) text.textContent = `Пройдено ${passedCount} из ${totalModules} модулей (${percent}%)`;
-        }
-
-        // ===== LESSONS =====
-        function toggleModule(header) {
-            const module = header.parentElement;
-            if (module.classList.contains('locked')) return;
-            module.classList.toggle('open');
-        }
-
-        let currentLessonId = null;
-
-        function openLesson(lessonId) {
-            const moduleNum = parseInt(lessonId.replace('lesson', ''));
-            if (!isModuleUnlocked(moduleNum)) {
-                alert('Сначала пройдите предыдущий модуль!');
-                return;
-            }
-
-            currentLessonId = lessonId;
-            const modal = document.getElementById('lessonModal');
-            const content = document.getElementById('lessonContent');
-
-            let lessonHTML = lessons[lessonId] || '<p>Урок ещё не готов</p>';
-
-            // Добавляем кнопку теста в конце урока
-            if (quizzes[moduleNum]) {
-                lessonHTML += `
-                    <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid rgba(233, 69, 96, 0.3);">
-                        <button class="open-lesson-btn" onclick="startQuiz(${moduleNum})" style="margin: 0; font-size: 1.1rem; padding: 15px 40px;">
-                            ${isModulePassed(moduleNum) ? '🔄 Пройти тест снова' : '📝 Пройти тест'}
-                        </button>
-                    </div>
-                `;
-            }
-
-            content.innerHTML = lessonHTML;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLesson() {
-            const modal = document.getElementById('lessonModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-            currentLessonId = null;
-        }
-
-        // ===== QUIZ =====
-        let currentQuiz = null;
-        let currentQuestion = 0;
-        let userAnswers = [];
-
-        function startQuiz(moduleNum) {
-            currentQuiz = quizzes[moduleNum];
-            currentQuiz.moduleNum = moduleNum;
-            currentQuestion = 0;
-            userAnswers = new Array(currentQuiz.questions.length).fill(null);
-
-            renderQuiz();
-        }
-
-        function renderQuiz() {
-            const content = document.getElementById('lessonContent');
-            const q = currentQuiz.questions[currentQuestion];
-
-            let optionsHTML = q.options.map((opt, i) => `
-                <div class="quiz-option ${userAnswers[currentQuestion] === i ? 'selected' : ''}"
-                     onclick="selectAnswer(${i})">
-                    ${String.fromCharCode(65 + i)}. ${opt}
-                </div>
-            `).join('');
-
-            content.innerHTML = `
-                <div class="quiz-container">
-                    <div class="quiz-title">${currentQuiz.title}</div>
-                    <div class="quiz-progress">Вопрос ${currentQuestion + 1} из ${currentQuiz.questions.length}</div>
-
-                    <div class="quiz-question">
-                        <div class="quiz-question-text">${q.q}</div>
-                        <div class="quiz-options">
-                            ${optionsHTML}
-                        </div>
-                    </div>
-
-                    <div class="quiz-nav">
-                        <button class="quiz-btn" onclick="prevQuestion()" ${currentQuestion === 0 ? 'style="visibility:hidden"' : ''}>
-                            ← Назад
-                        </button>
-                        <button class="quiz-btn quiz-btn-next" onclick="nextQuestion()"
-                                ${userAnswers[currentQuestion] === null ? 'disabled' : ''}>
-                            ${currentQuestion === currentQuiz.questions.length - 1 ? 'Завершить' : 'Далее →'}
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function selectAnswer(index) {
-            userAnswers[currentQuestion] = index;
-            renderQuiz();
-        }
-
-        function prevQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                renderQuiz();
-            }
-        }
-
-        function nextQuestion() {
-            if (userAnswers[currentQuestion] === null) return;
-
-            if (currentQuestion < currentQuiz.questions.length - 1) {
-                currentQuestion++;
-                renderQuiz();
-            } else {
-                showQuizResult();
-            }
-        }
-
-        function showQuizResult() {
-            let correct = 0;
-            currentQuiz.questions.forEach((q, i) => {
-                if (userAnswers[i] === q.correct) correct++;
-            });
-
-            const passed = correct >= 7;
-            const moduleNum = currentQuiz.moduleNum;
-
-            if (passed) {
-                progress[moduleNum] = { passed: true, score: correct, date: new Date().toISOString() };
-                saveProgress();
-                updateModulesAccess();
-                updateProgressBar();
-            }
-
-            const content = document.getElementById('lessonContent');
-            content.innerHTML = `
-                <div class="quiz-result">
-                    <div class="quiz-result-score ${passed ? 'pass' : 'fail'}">${correct}/10</div>
-                    <div class="quiz-result-text">
-                        ${passed
-                            ? '🎉 Отлично! Тест пройден. Следующий урок разблокирован!'
-                            : '😕 Не хватило баллов. Нужно минимум 7/10. Перечитай урок и попробуй снова.'}
-                    </div>
-                    <button class="open-lesson-btn" onclick="${passed ? 'closeLesson()' : `openLesson('lesson${moduleNum}')`}" style="margin: 0;">
-                        ${passed ? 'Вернуться к урокам' : 'Вернуться к уроку'}
-                    </button>
-                </div>
-            `;
-        }
-
-        // ===== INIT =====
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeLesson();
-            if (e.key === 'Enter' && document.getElementById('password-input') === document.activeElement) {
-                login();
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', initApp);
-    </script>
-
 </body>
 </html>
