@@ -1298,6 +1298,14 @@ body {
     box-shadow: none;
 }
 
+.access-hint {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.5;
+}
+
 .access-steps {
     display: flex;
     flex-direction: column;

@@ -35,35 +35,8 @@
                 <div class="login-divider">
                     <span>или</span>
                 </div>
-                <button class="login-btn login-btn-secondary" onclick="showAccessForm()">Получить доступ</button>
-            </div>
-
-            <!-- Форма запроса доступа -->
-            <div class="login-box" id="access-box" style="display: none;">
-                <h2 class="login-title">Запрос доступа</h2>
-                <div class="access-steps">
-                    <div class="access-step">
-                        <span class="step-number">1</span>
-                        <span>Напишите боту <a href="https://t.me/INSTINTO_Academy_Bot" target="_blank" class="bot-link">@INSTINTO_Academy_Bot</a></span>
-                    </div>
-                    <div class="access-step">
-                        <span class="step-number">2</span>
-                        <span>Заполните форму ниже</span>
-                    </div>
-                    <div class="access-step">
-                        <span class="step-number">3</span>
-                        <span>Получите логин и пароль в Telegram</span>
-                    </div>
-                </div>
-                <div class="login-form">
-                    <div class="login-input-group">
-                        <input type="text" class="login-input" id="telegram-input" placeholder="@username или номер телефона">
-                    </div>
-                    <button class="login-btn" onclick="requestAccess()">Отправить заявку</button>
-                    <div class="login-error" id="access-error"></div>
-                    <div class="login-success" id="access-success"></div>
-                </div>
-                <button class="login-btn login-btn-secondary" onclick="showLoginForm()" style="margin-top: 16px;">Назад к входу</button>
+                <a href="https://t.me/INSTINTO_Academy_Bot?start=access" class="login-btn login-btn-secondary" style="text-decoration: none; text-align: center;">Получить доступ</a>
+                <p class="access-hint">Нажмите Start в боте — администратор одобрит заявку и вы получите логин/пароль</p>
             </div>
         </div>
     </div>
@@ -242,16 +215,6 @@
             showLoginForm();
         }
 
-        function showLoginForm() {
-            document.getElementById('login-box').style.display = 'block';
-            document.getElementById('access-box').style.display = 'none';
-        }
-
-        function showAccessForm() {
-            document.getElementById('login-box').style.display = 'none';
-            document.getElementById('access-box').style.display = 'block';
-        }
-
         function showApp() {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('app-container').style.display = 'flex';
@@ -310,44 +273,6 @@
                 errorEl.textContent = 'Ошибка соединения с сервером';
                 errorEl.classList.add('show');
                 setTimeout(() => errorEl.classList.remove('show'), 3000);
-            }
-        }
-
-        async function requestAccess() {
-            const telegram = document.getElementById('telegram-input').value.trim();
-            const errorEl = document.getElementById('access-error');
-            const successEl = document.getElementById('access-success');
-
-            errorEl.classList.remove('show');
-            successEl.classList.remove('show');
-
-            if (!telegram) {
-                errorEl.textContent = 'Введите ваш Telegram';
-                errorEl.classList.add('show');
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_URL}/api/request-access`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ telegram: telegram })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    successEl.textContent = data.message || 'Заявка отправлена!';
-                    successEl.classList.add('show');
-                    document.getElementById('telegram-input').value = '';
-                } else {
-                    errorEl.textContent = data.error || 'Ошибка отправки заявки';
-                    errorEl.classList.add('show');
-                }
-            } catch (error) {
-                console.error('Request access error:', error);
-                errorEl.textContent = 'Ошибка соединения с сервером';
-                errorEl.classList.add('show');
             }
         }
 
