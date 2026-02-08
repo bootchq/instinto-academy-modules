@@ -1298,6 +1298,47 @@ body {
     box-shadow: none;
 }
 
+.access-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+}
+
+.access-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.step-number {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.bot-link {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.bot-link:hover {
+    text-decoration: underline;
+}
+
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .sidebar {
