@@ -194,18 +194,31 @@
 
         // ===== INIT =====
         function initApp() {
-            const savedProgress = localStorage.getItem('academyProgress');
-            if (savedProgress) {
-                progress = JSON.parse(savedProgress);
-            }
-
             const savedUser = localStorage.getItem('academyUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
+                loadUserProgress();
                 showApp();
             } else {
                 showLogin();
             }
+        }
+
+        function loadUserProgress() {
+            if (!currentUser?.login) return;
+            const key = `academyProgress_${currentUser.login}`;
+            const savedProgress = localStorage.getItem(key);
+            if (savedProgress) {
+                progress = JSON.parse(savedProgress);
+            } else {
+                progress = {};
+            }
+        }
+
+        function saveUserProgress() {
+            if (!currentUser?.login) return;
+            const key = `academyProgress_${currentUser.login}`;
+            localStorage.setItem(key, JSON.stringify(progress));
         }
 
         // ===== AUTH =====
@@ -234,6 +247,7 @@
                 currentUser = { role: 'admin', name: 'Администратор', login: 'admin' };
                 localStorage.setItem('academyUser', JSON.stringify(currentUser));
                 localStorage.setItem('academyToken', 'admin-token');
+                loadUserProgress();
                 showApp();
                 return;
             }
@@ -262,6 +276,7 @@
                     };
                     localStorage.setItem('academyUser', JSON.stringify(currentUser));
                     localStorage.setItem('academyToken', data.token);
+                    loadUserProgress();
                     showApp();
                 } else {
                     errorEl.textContent = data.error || 'Ошибка входа';
@@ -556,7 +571,7 @@
 
             if (passed) {
                 progress[moduleId] = { passed: true, score: correct, date: new Date().toISOString() };
-                localStorage.setItem('academyProgress', JSON.stringify(progress));
+                saveUserProgress();
                 renderSidebar();
                 renderModules();
                 updateStats();
