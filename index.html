@@ -187,31 +187,89 @@
             { id: 14, title: 'Штрафы и правила', topics: ['Регламенты', 'Дежурства', 'Отчётность'], time: '30 мин' },
         ];
 
+        // ===== API =====
+        async function apiCall(method, path, body = null) {
+            const token = localStorage.getItem('academyToken');
+            if (!token || token === 'admin-token') return null;
+
+            const options = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            if (body) options.body = JSON.stringify(body);
+
+            try {
+                const response = await fetch(`${API_URL}${path}`, options);
+                if (response.ok) return await response.json();
+                return null;
+            } catch (e) {
+                console.error(`API error ${path}:`, e);
+                return null;
+            }
+        }
+
         // ===== STATE =====
         let currentUser = null;
         let progress = {};
         let currentLesson = null;
+        let moduleTimers = {};
 
         // ===== INIT =====
-        function initApp() {
+        async function initApp() {
             const savedUser = localStorage.getItem('academyUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
-                loadUserProgress();
+                await loadUserProgress();
                 showApp();
             } else {
                 showLogin();
             }
         }
 
-        function loadUserProgress() {
+        async function loadUserProgress() {
             if (!currentUser?.login) return;
             const key = `academyProgress_${currentUser.login}`;
             const savedProgress = localStorage.getItem(key);
-            if (savedProgress) {
-                progress = JSON.parse(savedProgress);
-            } else {
-                progress = {};
+            progress = savedProgress ? JSON.parse(savedProgress) : {};
+
+            // Загружаем прогресс с сервера и мержим
+            const serverData = await apiCall('GET', '/api/progress');
+            if (serverData?.progress) {
+                const serverProgress = serverData.progress;
+                const serverEmpty = Object.keys(serverProgress).length === 0;
+                const localHasData = Object.keys(progress).length > 0;
+
+                if (serverEmpty && localHasData) {
+                    // Миграция: отправляем localStorage на сервер
+                    for (const [id, p] of Object.entries(progress)) {
+                        if (p.passed) {
+                            await apiCall('POST', '/api/progress', {
+                                module_id: parseInt(id),
+                                score: p.score || 0,
+                                passed: true,
+                                time_spent_seconds: 0
+                            });
+                        }
+                    }
+                } else {
+                    // Мерж: сервер приоритетнее
+                    for (const [moduleId, sp] of Object.entries(serverProgress)) {
+                        const id = parseInt(moduleId);
+                        const local = progress[id];
+                        if (!local || sp.passed || (sp.score > (local.score || 0))) {
+                            progress[id] = {
+                                passed: sp.passed,
+                                score: sp.score,
+                                date: sp.date,
+                                timeSpent: sp.time_spent_seconds
+                            };
+                        }
+                    }
+                    saveUserProgress();
+                }
             }
         }
 
@@ -247,7 +305,7 @@
                 currentUser = { role: 'admin', name: 'Администратор', login: 'admin' };
                 localStorage.setItem('academyUser', JSON.stringify(currentUser));
                 localStorage.setItem('academyToken', 'admin-token');
-                loadUserProgress();
+                await loadUserProgress();
                 showApp();
                 return;
             }
@@ -276,7 +334,7 @@
                     };
                     localStorage.setItem('academyUser', JSON.stringify(currentUser));
                     localStorage.setItem('academyToken', data.token);
-                    loadUserProgress();
+                    await loadUserProgress();
                     showApp();
                 } else {
                     errorEl.textContent = data.error || 'Ошибка входа';
@@ -438,6 +496,10 @@
             if (!isUnlocked(moduleId)) return;
 
             currentLesson = moduleId;
+            // Начинаем отсчёт времени на модуль
+            if (!moduleTimers[moduleId]) {
+                moduleTimers[moduleId] = Date.now();
+            }
             const modal = document.getElementById('lesson-modal');
             const content = document.getElementById('lesson-content');
             const titleHeader = document.getElementById('lesson-title-header');
@@ -474,6 +536,19 @@
         }
 
         function closeLesson() {
+            // Сохраняем время на модуль
+            if (currentLesson && moduleTimers[currentLesson]) {
+                const elapsed = Math.round((Date.now() - moduleTimers[currentLesson]) / 1000);
+                if (elapsed > 5) {
+                    apiCall('POST', '/api/progress', {
+                        module_id: currentLesson,
+                        score: progress[currentLesson]?.score || 0,
+                        passed: progress[currentLesson]?.passed || false,
+                        time_spent_seconds: elapsed
+                    });
+                }
+                delete moduleTimers[currentLesson];
+            }
             document.getElementById('lesson-modal').classList.remove('active');
             document.body.style.overflow = '';
             currentLesson = null;
@@ -570,8 +645,17 @@
             const passed = correct >= 7;
 
             if (passed) {
-                progress[moduleId] = { passed: true, score: correct, date: new Date().toISOString() };
+                const timeSpent = moduleTimers[moduleId] ? Math.round((Date.now() - moduleTimers[moduleId]) / 1000) : 0;
+                progress[moduleId] = { passed: true, score: correct, date: new Date().toISOString(), timeSpent };
                 saveUserProgress();
+                // Отправляем результат на сервер
+                apiCall('POST', '/api/progress', {
+                    module_id: moduleId,
+                    score: correct,
+                    passed: true,
+                    time_spent_seconds: timeSpent
+                });
+                delete moduleTimers[moduleId];
                 renderSidebar();
                 renderModules();
                 updateStats();
