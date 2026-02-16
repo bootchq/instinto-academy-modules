@@ -470,7 +470,7 @@
                 const topicsHtml = m.topics.slice(0, 3).map(t => `<li class="module-topic">${t}</li>`).join('');
 
                 html += `
-                    <div class="module-card ${cardClass}" onclick="${unlocked ? `openLesson(${m.id})` : ''}" data-module="${m.id}">
+                    <div class="module-card ${cardClass}" ${unlocked ? 'onclick="openLesson(' + m.id + ')"' : ''} data-module="${m.id}">
                         <div class="module-card-header">
                             <div class="module-number">${passed ? '✓' : m.id}</div>
                             <div class="module-info">
