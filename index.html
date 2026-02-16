@@ -491,7 +491,7 @@
                                 </div>
                                 <span class="module-progress-text">${passed ? '100%' : '0%'}</span>
                             </div>
-                            <button class="module-btn">${btnText}</button>
+                            <button class="module-btn" onclick="event.stopPropagation(); ${unlocked ? `openLesson(${m.id})` : `return false;`}">${btnText}</button>
                         </div>
                     </div>
                 `;
