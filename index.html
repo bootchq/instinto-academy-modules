@@ -434,7 +434,7 @@
                 }
 
                 html += `
-                    <div class="nav-item ${statusClass}" onclick="${unlocked ? `openLesson(${m.id})` : ''}">
+                    <div class="nav-item ${statusClass}" ${unlocked ? 'onclick="openLesson(' + m.id + ')"' : ''}>
                         <div class="nav-item-icon">${m.id}</div>
                         <div class="nav-item-content">
                             <div class="nav-item-title">${m.title}</div>
@@ -680,7 +680,7 @@
                             ? 'Отлично! Тест пройден успешно. Следующий модуль разблокирован!'
                             : 'Не хватило баллов. Нужно минимум 7 из 10. Перечитайте материал и попробуйте снова.'}
                     </div>
-                    <button class="module-btn quiz-result-btn" onclick="${passed ? 'closeLesson()' : `openLesson(${moduleId})`}">
+                    <button class="module-btn quiz-result-btn" onclick="${passed ? 'closeLesson()' : 'openLesson(' + moduleId + ')'}">
                         ${passed ? '← Вернуться к модулям' : '📖 Вернуться к уроку'}
                     </button>
                 </div>
