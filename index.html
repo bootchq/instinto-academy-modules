@@ -400,8 +400,15 @@
         function isUnlocked(moduleId) {
             if (currentUser?.role === 'admin') return true;
             if (moduleId === 1) return true;
+            // Модули 15-16 открыты всегда (мастер-класс для опытных)
+            if (moduleId === 15 || moduleId === 16) return true;
             return progress[moduleId - 1]?.passed;
         }
+
+
+
+
+
 
         function isPassed(moduleId) {
             return progress[moduleId]?.passed;
