@@ -107,7 +107,7 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon modules">📚</div>
-                    <div class="stat-value">14</div>
+                    <div class="stat-value">16</div>
                     <div class="stat-label">Модулей</div>
                 </div>
                 <div class="stat-card">
@@ -151,7 +151,7 @@
             </div>
             <div class="lesson-actions">
                 <div class="lesson-progress-indicator" id="lesson-progress-indicator">
-                    Модуль 1 из 14
+                    Модуль 1 из 16
                 </div>
             </div>
         </header>
@@ -509,7 +509,7 @@
 
             const module = MODULES.find(m => m.id === moduleId);
             titleHeader.textContent = module.title;
-            progressIndicator.textContent = `Модуль ${moduleId} из 14`;
+            progressIndicator.textContent = `Модуль ${moduleId} из 16`;
 
             // Get lesson content
             let lessonHtml = lessons['lesson' + moduleId] || '<p>Урок ещё не готов</p>';
