@@ -7390,7 +7390,14 @@ VIP. Постоянный клиент с 2022.
 
 
 <hr>`,
-            lesson16: `<h1>Модуль 16: Тренажёр чатов</h1><p>В разработке.</p>`,
+            lesson16: `<h1>Модуль 16: Тренажёр чатов</h1><p style="padding: 40px; text-align: center; color: #93a1a1;">В разработке.</p>`
+        };
+
+        // Открыть урок
+        function openLesson(lessonId) {
+            document.getElementById('lesson-modal').style.display = 'block';
+            document.getElementById('lesson-content').innerHTML = lessons['lesson' + lessonId];
+        }
     </script>
 </body>
 </html>
