@@ -7652,11 +7652,20 @@ function loadQuiz() {
 
     // Показать варианты
     const optionsHtml = quiz.options.map((option, index) => `
-        <div class="trainer-option" onclick="selectAnswer('${option.id}')" data-option="${option.id}">
+        <div class="trainer-option" data-option="${option.id}">
             <strong>${option.id.toUpperCase()})</strong> ${option.text}
         </div>
     `).join('');
-    document.getElementById('trainer-options').innerHTML = optionsHtml;
+    const optionsContainer = document.getElementById('trainer-options');
+    optionsContainer.innerHTML = optionsHtml;
+
+    // Event delegation для кликов по опциям
+    optionsContainer.onclick = (e) => {
+        const option = e.target.closest('.trainer-option');
+        if (option) {
+            selectAnswer(option.dataset.option);
+        }
+    };
 
     // Скрыть объяснение и кнопку "Следующий"
     document.getElementById('trainer-explanation').style.display = 'none';
