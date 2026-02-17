@@ -7541,8 +7541,8 @@ function switchModule15Tab(tabNumber) {
     document.querySelectorAll('.module15-tab-content').forEach(content => content.classList.remove('active'));
 
     // Добавляем active к выбранному
-    const selectedTab = document.querySelector(`[data-tab="${tabNumber}"]`);
-    const selectedContent = document.getElementById(`module15-tab-${tabNumber}`);
+    const selectedTab = document.querySelector('[data-tab="' + tabNumber + '"]');
+    const selectedContent = document.getElementById('module15-tab-' + tabNumber);
 
     if (selectedTab && selectedContent) {
         selectedTab.classList.add('active');
@@ -7562,7 +7562,7 @@ function updateModule15Progress() {
     const viewed = module15ViewedTabs.size;
     const percentage = Math.round((viewed / total) * 100);
 
-    document.getElementById('module15-progress-text').textContent = `Изучено ${viewed} из ${total} разделов`;
+    document.getElementById('module15-progress-text').textContent = 'Изучено ' + viewed + ' из ' + total + ' разделов';
     document.getElementById('module15-progress-bar').style.width = percentage + '%';
 }
 
