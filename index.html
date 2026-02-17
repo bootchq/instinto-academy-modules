@@ -5083,9 +5083,46 @@ VIP. Постоянный клиент с 2022.
             lesson15: `<h1>Модуль 15: Мастер-класс: Техники из лучших чатов</h1>
 <div class="lesson-intro"><strong>Для кого:</strong> Опытные менеджеры (1+ месяц работы, 50+ диалогов)</div>
 <div class="lesson-intro"><strong>Источник:</strong> Анализ 115 лучших чатов (топ-1.8% из 6550)</div>
-<hr>
-<h1>Модуль 15.1. Пошаговые скрипты по 7 сценариям</h1>
 
+<!-- Прогресс изучения -->
+<div class="module15-progress">
+    <span id="module15-progress-text">Изучено 0 из 6 разделов</span>
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="module15-progress-bar" style="width: 0%"></div>
+    </div>
+</div>
+
+<!-- Навигация вкладок -->
+<div class="module15-tabs">
+    <button class="module15-tab active" onclick="switchModule15Tab(1)" data-tab="1">
+        <span class="tab-number">15.1</span>
+        <span class="tab-title">Скрипты по сценариям</span>
+    </button>
+    <button class="module15-tab" onclick="switchModule15Tab(2)" data-tab="2">
+        <span class="tab-number">15.2</span>
+        <span class="tab-title">Матрица возражений</span>
+    </button>
+    <button class="module15-tab" onclick="switchModule15Tab(3)" data-tab="3">
+        <span class="tab-number">15.3</span>
+        <span class="tab-title">Кросс-селл</span>
+    </button>
+    <button class="module15-tab" onclick="switchModule15Tab(4)" data-tab="4">
+        <span class="tab-number">15.4</span>
+        <span class="tab-title">Презентация товаров</span>
+    </button>
+    <button class="module15-tab" onclick="switchModule15Tab(5)" data-tab="5">
+        <span class="tab-number">15.5</span>
+        <span class="tab-title">Деликатные темы</span>
+    </button>
+    <button class="module15-tab" onclick="switchModule15Tab(6)" data-tab="6">
+        <span class="tab-number">15.6</span>
+        <span class="tab-title">Антипаттерны</span>
+    </button>
+</div>
+
+<!-- Контент вкладок -->
+<div class="module15-tab-content active" id="module15-tab-1">
+<h2>Модуль 15.1. Скрипты по сценариям</h2>
 <p><blockquote>Источник: анализ 115 лучших чатов (score >= 7) из 6550 всего (топ 1.8%)</blockquote></p>
 
 <h2>Введение</h2>
@@ -5671,8 +5708,10 @@ VIP. Постоянный клиент с 2022.
 
 
 <hr>
-<h1>Модуль 15.2. Матрица возражений (99 возражений)</h1>
+</div>
 
+<div class="module15-tab-content" id="module15-tab-2">
+<h2>Модуль 15.2. Матрица возражений</h2>
 <p><blockquote>Источник: анализ 115 лучших чатов (score >= 7)</blockquote></p>
 
 <h2>Введение</h2>
@@ -6278,8 +6317,10 @@ VIP. Постоянный клиент с 2022.
 
 
 <hr>
-<h1>Модуль 15.3. Кросс-селл и допродажи</h1>
+</div>
 
+<div class="module15-tab-content" id="module15-tab-3">
+<h2>Модуль 15.3. Кросс-селл</h2>
 <p><blockquote>Источник: 69 реальных примеров успешных допродаж + 21 связка товаров</blockquote></p>
 
 <h2>Введение</h2>
@@ -6723,8 +6764,10 @@ VIP. Постоянный клиент с 2022.
 
 
 <hr>
-<h1>Модуль 15.4. Презентация товаров (9 категорий)</h1>
+</div>
 
+<div class="module15-tab-content" id="module15-tab-4">
+<h2>Модуль 15.4. Презентация товаров</h2>
 <p><blockquote>Источник: анализ 115 лучших чатов</blockquote></p>
 
 <h2>Введение</h2>
@@ -6933,8 +6976,10 @@ VIP. Постоянный клиент с 2022.
 
 
 <hr>
-<h1>Модуль 15.5. Деликатные темы (5 тем)</h1>
+</div>
 
+<div class="module15-tab-content" id="module15-tab-5">
+<h2>Модуль 15.5. Деликатные темы</h2>
 <p><blockquote>Источник: 115 лучших чатов, топовые менеджеры</blockquote></p>
 
 <h2>Введение</h2>
@@ -7114,8 +7159,10 @@ VIP. Постоянный клиент с 2022.
 
 
 <hr>
-<h1>Модуль 15.6. Антипаттерны и DO/DON'T</h1>
+</div>
 
+<div class="module15-tab-content" id="module15-tab-6">
+<h2>Модуль 15.6. Антипаттерны</h2>
 <p><blockquote>Источник: сравнение 270 чатов (score 6-10), выделены ошибки средних менеджеров</blockquote></p>
 
 <h2>Введение</h2>
@@ -7387,9 +7434,142 @@ VIP. Постоянный клиент с 2022.
 | 11. Эмоциональный интеллект | При деликатных вопросах отвечай профессионально, без смущения | Не используй emoji-ухмылки или фразы 'ну вы понимаете 😉' |
 | 12. Подтверждение деталей | Подтверждай итоговую сумму, состав заказа, адрес перед отправкой | Не отправляй заказ без финального подтверждения |
 | 12. Подтверждение деталей | Повторяй запрос клиента перед предложением товара | Не предлагай товар сразу без уточнения деталей |
+</div>
 
 
-<hr>`,
+<style>
+.module15-progress {
+    background: rgba(38, 139, 210, 0.1);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.module15-progress #module15-progress-text {
+    font-size: 14px;
+    color: #268bd2;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.progress-bar-container {
+    height: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #268bd2, #2aa198);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.module15-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.module15-tab {
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.module15-tab:hover {
+    background: rgba(38, 139, 210, 0.1);
+    border-color: #268bd2;
+}
+
+.module15-tab.active {
+    background: rgba(38, 139, 210, 0.2);
+    border-color: #268bd2;
+}
+
+.module15-tab .tab-number {
+    display: block;
+    font-size: 12px;
+    color: #586e75;
+    font-weight: 600;
+}
+
+.module15-tab.active .tab-number {
+    color: #268bd2;
+}
+
+.module15-tab .tab-title {
+    display: block;
+    font-size: 14px;
+    color: #93a1a1;
+    margin-top: 4px;
+}
+
+.module15-tab.active .tab-title {
+    color: #268bd2;
+}
+
+.module15-tab-content {
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+.module15-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+// Отслеживание просмотренных вкладок
+let module15ViewedTabs = new Set();
+
+function switchModule15Tab(tabNumber) {
+    // Убираем active со всех табов
+    document.querySelectorAll('.module15-tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.module15-tab-content').forEach(content => content.classList.remove('active'));
+
+    // Добавляем active к выбранному
+    const selectedTab = document.querySelector(`[data-tab="${tabNumber}"]`);
+    const selectedContent = document.getElementById(`module15-tab-${tabNumber}`);
+
+    if (selectedTab && selectedContent) {
+        selectedTab.classList.add('active');
+        selectedContent.classList.add('active');
+
+        // Отмечаем как просмотренный
+        module15ViewedTabs.add(tabNumber);
+        updateModule15Progress();
+
+        // Скроллим наверх
+        selectedContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function updateModule15Progress() {
+    const total = 6;
+    const viewed = module15ViewedTabs.size;
+    const percentage = Math.round((viewed / total) * 100);
+
+    document.getElementById('module15-progress-text').textContent = `Изучено ${viewed} из ${total} разделов`;
+    document.getElementById('module15-progress-bar').style.width = percentage + '%';
+}
+
+// Отметить первую вкладку как просмотренную при открытии
+module15ViewedTabs.add(1);
+updateModule15Progress();
+</script>`,
             lesson16: `<h1>Модуль 16: Тренажёр чатов</h1><p style="padding: 40px; text-align: center; color: #93a1a1;">В разработке.</p>`
         };
     </script>
