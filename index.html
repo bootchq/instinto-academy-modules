@@ -7651,11 +7651,11 @@ function loadQuiz() {
     document.getElementById('trainer-question').textContent = 'Клиент: "' + quiz.question + '"';
 
     // Показать варианты
-    const optionsHtml = quiz.options.map((option, index) => `
+    const optionsHtml = quiz.options.map((option, index) => \`
         <div class="trainer-option" data-option="${option.id}">
             <strong>${option.id.toUpperCase()})</strong> ${option.text}
         </div>
-    `).join('');
+    \`).join('');
     const optionsContainer = document.getElementById('trainer-options');
     optionsContainer.innerHTML = optionsHtml;
 
@@ -7705,12 +7705,12 @@ function selectAnswer(optionId) {
 
     // Показать объяснение
     const explanationEl = document.getElementById('trainer-explanation');
-    explanationEl.innerHTML = `
+    explanationEl.innerHTML = \`
         <h4>✓ Правильный ответ: ${correctOption.id.toUpperCase()})</h4>
         <p><strong>${correctOption.text}</strong></p>
         <hr style="margin: 15px 0; border: none; border-top: 1px solid rgba(133, 153, 0, 0.3);">
         <p>${quiz.explanation}</p>
-    `;
+    \`;
     explanationEl.style.display = 'block';
 
     // Показать кнопку "Следующий"
@@ -7743,7 +7743,7 @@ function updateStats() {
 // Показать завершение
 function showCompletion() {
     const container = document.querySelector('.trainer-container');
-    container.innerHTML = `
+    container.innerHTML = \`
         <div style="text-align: center; padding: 60px 20px;">
             <h2 style="color: #859900; font-size: 48px; margin-bottom: 20px;">🎉 Поздравляем!</h2>
             <p style="font-size: 24px; color: #93a1a1; margin-bottom: 40px;">
@@ -7767,12 +7767,12 @@ function showCompletion() {
                 Начать заново
             </button>
         </div>
-    `;
+    \`;
 }
 
 // Загрузить первый квиз при открытии модуля
 setTimeout(() => loadQuiz(), 100);
-<\/script>`,
+<\/script>\`,
     </script>
 </body>
 </html>
