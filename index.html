@@ -656,7 +656,6 @@
                 const timeSpent = moduleTimers[moduleId] ? Math.round((Date.now() - moduleTimers[moduleId]) / 1000) : 0;
                 progress[moduleId] = { passed: true, score: correct, date: new Date().toISOString(), timeSpent };
                 saveUserProgress();
-                // Отправляем результат на сервер
                 apiCall('POST', '/api/progress', {
                     module_id: moduleId,
                     score: correct,
@@ -669,21 +668,51 @@
                 updateStats();
             }
 
+            // Разбор ошибок
+            const reviewHtml = quiz.questions.map((q, i) => {
+                const isCorrect = answers[i] === q.correct;
+                const userAnswer = q.options[answers[i]] || 'Нет ответа';
+                const correctAnswer = q.options[q.correct];
+                const explanation = q.explanation || '';
+
+                if (isCorrect) {
+                    return '<div class="review-item review-correct">' +
+                        '<div class="review-icon">&#10003;</div>' +
+                        '<div class="review-body">' +
+                            '<div class="review-question">Вопрос ' + (i + 1) + ': ' + q.q + '</div>' +
+                            '<div class="review-answer-correct">&#10003; ' + correctAnswer + '</div>' +
+                        '</div>' +
+                    '</div>';
+                } else {
+                    return '<div class="review-item review-wrong">' +
+                        '<div class="review-icon">&#10007;</div>' +
+                        '<div class="review-body">' +
+                            '<div class="review-question">Вопрос ' + (i + 1) + ': ' + q.q + '</div>' +
+                            '<div class="review-answer-wrong">&#10007; Ваш ответ: ' + userAnswer + '</div>' +
+                            '<div class="review-answer-correct">&#10003; Правильно: ' + correctAnswer + '</div>' +
+                            (explanation ? '<div class="review-explanation">' + explanation + '</div>' : '') +
+                        '</div>' +
+                    '</div>';
+                }
+            }).join('');
+
             const content = document.getElementById('lesson-content');
-            content.innerHTML = `
-                <div class="quiz-result">
-                    <div class="quiz-result-icon">${passed ? '🎉' : '😕'}</div>
-                    <div class="quiz-result-score ${passed ? 'pass' : 'fail'}">${correct}/10</div>
-                    <div class="quiz-result-text">
-                        ${passed
-                            ? 'Отлично! Тест пройден успешно. Следующий модуль разблокирован!'
-                            : 'Не хватило баллов. Нужно минимум 7 из 10. Перечитайте материал и попробуйте снова.'}
-                    </div>
-                    <button class="module-btn quiz-result-btn" onclick="${passed ? 'closeLesson()' : 'openLesson(' + moduleId + ')'}">
-                        ${passed ? '← Вернуться к модулям' : '📖 Вернуться к уроку'}
-                    </button>
-                </div>
-            `;
+            content.innerHTML = '<div class="quiz-result">' +
+                '<div class="quiz-result-icon">' + (passed ? '&#127881;' : '&#128533;') + '</div>' +
+                '<div class="quiz-result-score ' + (passed ? 'pass' : 'fail') + '">' + correct + '/10</div>' +
+                '<div class="quiz-result-text">' +
+                    (passed
+                        ? 'Отлично! Тест пройден успешно. Следующий модуль разблокирован!'
+                        : 'Не хватило баллов. Нужно минимум 7 из 10. Перечитайте материал и попробуйте снова.') +
+                '</div>' +
+                '<div class="review-section">' +
+                    '<div class="review-title">Разбор ответов</div>' +
+                    reviewHtml +
+                '</div>' +
+                '<button class="module-btn quiz-result-btn" onclick="' + (passed ? 'closeLesson()' : 'openLesson(' + moduleId + ')') + '">' +
+                    (passed ? '&#8592; Вернуться к модулям' : '&#128214; Вернуться к уроку') +
+                '</button>' +
+            '</div>';
         }
 
         // ===== EVENTS =====
@@ -7528,6 +7557,88 @@ VIP. Постоянный клиент с 2022.
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Разбор ответов после теста */
+.review-section {
+    margin: 30px 0 20px;
+    text-align: left;
+}
+
+.review-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #93a1a1;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(147, 161, 161, 0.2);
+}
+
+.review-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    animation: fadeInUp 0.3s ease;
+}
+
+.review-correct {
+    background: rgba(133, 153, 0, 0.08);
+    border-left: 3px solid #859900;
+}
+
+.review-wrong {
+    background: rgba(220, 50, 47, 0.08);
+    border-left: 3px solid #dc322f;
+}
+
+.review-icon {
+    font-size: 20px;
+    font-weight: 700;
+    min-width: 28px;
+    text-align: center;
+    padding-top: 2px;
+}
+
+.review-correct .review-icon { color: #859900; }
+.review-wrong .review-icon { color: #dc322f; }
+
+.review-body {
+    flex: 1;
+}
+
+.review-question {
+    font-size: 14px;
+    color: #93a1a1;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.review-answer-correct {
+    font-size: 14px;
+    color: #859900;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.review-answer-wrong {
+    font-size: 14px;
+    color: #dc322f;
+    margin-bottom: 6px;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+.review-explanation {
+    font-size: 13px;
+    color: #268bd2;
+    background: rgba(38, 139, 210, 0.08);
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 6px;
+    line-height: 1.5;
+    font-style: italic;
 }
 </style>
 
